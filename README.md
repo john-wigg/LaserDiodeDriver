@@ -8,7 +8,7 @@ An [EMU](https://micro-manager.org/wiki/EMU) plugin deigned to be used with this
 
 ## Known bugs
 
-Sometimes, when setting the number of laser diodes, the hardware configuration manager crashes (see #1). A workaround is to leave the number of diodes at 1 on initial configuration and change the number manually in the generated config file. Note that in order to access the hardware configuration wizard again, an empty configuration may have to be loaded.
+Sometimes, when setting the number of laser diodes, the hardware configuration manager crashes (see [this issue](https://github.com/john-wigg/LaserDiodeDriver/issues/1)). A workaround is to leave the number of diodes at 1 on initial configuration and change the number manually in the generated config file. Note that in order to access the hardware configuration wizard again, an empty configuration may have to be loaded.
 
 ## Build instructions
 
