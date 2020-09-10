@@ -41,6 +41,8 @@ cmake .. -DMMROOT=path/to/micro-manager
 ```
 (If the `MMROOT` option is not specified, it is assumed that the `LaserDiodeDriver` directory is located inside the `DeviceAdapters` or `TestDeviceAdapters` directory inside Micro-Manager's source tree.)
 
+**Note**: If the compilation completes but you get "undefined reference" errors when trying to open the adapter in Micro-Manager, the path to Micro-Manager was probably incorrect.
+
 6. Run the build:
 ```
 cmake --build .
