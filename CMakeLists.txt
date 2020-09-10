@@ -10,4 +10,4 @@ file(GLOB MMDEVSRC
 add_library(mmgr_dal_LaserDiodeDriver SHARED LaserDiodeDriver.cpp K8061.cpp DummyBoard.cpp ${MMDEVSRC})
 
 target_link_libraries(mmgr_dal_LaserDiodeDriver comedi)
-target_include_directories(mmgr_dal_LaserDiodeDriver PUBLIC ${MMROOT}/DeviceAdapters/../MMDevice)
+target_include_directories(mmgr_dal_LaserDiodeDriver PUBLIC ${MMROOT}/MMDevice)
