@@ -6,6 +6,10 @@ This [Micro-Manager](https://github.com/micro-manager/micro-manager) device adap
 
 An [EMU](https://micro-manager.org/wiki/EMU) plugin deigned to be used with this adapter is available at https://github.com/john-wigg/LaserDiodeDriverUI.
 
+## Known bugs
+
+Sometimes, when setting the number of laser diodes, the hardware configuration manager crashes (see #1). A workaround is to leave the number of diodes at 1 on initial configuration and change the number manually in the generated config file. Note that in order to access the hardware configuration wizard again, an empty configuration may have to be loaded.
+
 ## Build instructions
 
 [CMake](https://cmake.org/) is used the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed as an ImageJ plugin.
@@ -52,7 +56,7 @@ mv libmmgr_dal_LaserDiodeDriver.so libmmgr_dal_LaserDiodeDriver.so.0
 cp libmmgr_dal_LaserDiver.so.0 /path/to/ImageJ
 ```
 
-9. Run Micro-Manager and create a new hardware configuration with the `LaserDiodeDriver` devica adapter.
+9. Run Micro-Manager and create a new hardware configuration with the `LaserDiodeDriver` device adapter.
 
 ## Additional setup
 
