@@ -55,7 +55,7 @@ mv libmmgr_dal_LaserDiodeDriver.so libmmgr_dal_LaserDiodeDriver.so.0
 
 8. Copy the shared library to the installation directory of Micro-Manager/ImageJ (may require root permissions):
 ```
-cp libmmgr_dal_LaserDiver.so.0 /path/to/ImageJ
+cp libmmgr_dal_LaserDiodeDriver.so.0 /path/to/ImageJ
 ```
 
 9. Run Micro-Manager and create a new hardware configuration with the `LaserDiodeDriver` device adapter.
