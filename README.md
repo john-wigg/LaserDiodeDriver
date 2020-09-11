@@ -4,7 +4,7 @@ This [Micro-Manager](https://github.com/micro-manager/micro-manager) device adap
 
 ## EMU interface
 
-An [EMU](https://micro-manager.org/wiki/EMU) plugin deigned to be used with this adapter is available at https://github.com/john-wigg/LaserDiodeDriverUI.
+An [EMU](https://micro-manager.org/wiki/EMU) plugin designed to be used with this adapter is available at https://github.com/john-wigg/LaserDiodeDriverUI.
 
 ## Known bugs
 
