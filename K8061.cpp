@@ -3,7 +3,7 @@
 #include <comedilib.h>
 
 K8061::K8061(std::string dev) {
-    std::string dev_ = dev;
+    dev_ = dev;
 }
 
 int K8061::Open() {
