@@ -31,9 +31,9 @@ bool Arduino::DeviceIsOpen() const {
 
 int Arduino::WriteAnalogRelative(unsigned int channel, double relative_value) {
     if (!dev_.isOpen()) return 1;
-    
+
     dev_.write(std::vector<uint8_t>({CODE_WRITE_ANALOG, (uint8_t)channel}));
-    dev_.write(std::to_string(relative_value));
+    dev_.write(std::to_string(relative_value) + '\0');
 
     return 0;
 };
