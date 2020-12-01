@@ -46,7 +46,7 @@ if (BUILD_ARDUINO)
        target_link_libraries(mmgr_dal_LaserDiodeDriver PRIVATE serial)
        target_include_directories(serial PUBLIC vendor/serial/include)
        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-              target_compile_options(serial PRIVATE -fPIC) # Needed to built shared library on GCC
+              target_compile_options(serial PRIVATE -fPIC) # Needed to build shared library on GCC
        endif()
 endif()
 
