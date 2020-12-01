@@ -19,7 +19,7 @@ int K8061::Open() {
     return 0;
 }
 
-int K8061::WriteAnalogRelative(unsigned int channel, double relative_value) const
+int K8061::WriteAnalogRelative(unsigned int channel, double relative_value)
 {
     if (channel > analog_n_channels_ - 1) { // invalid channel index
         return 1;
@@ -35,7 +35,7 @@ int K8061::WriteAnalogRelative(unsigned int channel, double relative_value) cons
     return 0;
 }
 
-int K8061::WriteDigital(unsigned int channel, bool value) const {
+int K8061::WriteDigital(unsigned int channel, bool value) {
     if (channel > digital_n_channels_ - 1) { // invalid channel index
         return 1;
     }

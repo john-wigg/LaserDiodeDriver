@@ -6,11 +6,11 @@ This [Micro-Manager](https://github.com/micro-manager/micro-manager) device adap
 
 An [EMU](https://micro-manager.org/wiki/EMU) plugin designed to be used with this adapter is available at https://github.com/john-wigg/LaserDiodeDriverUI.
 
-## Known bugs
+## Known issues
 
 Sometimes, when setting the number of laser diodes, the hardware configuration manager crashes (see [this issue](https://github.com/john-wigg/LaserDiodeDriver/issues/1)). A workaround is to leave the number of diodes at 1 on initial configuration and change the number manually in the generated config file. Note that in order to access the hardware configuration wizard again, an empty configuration may have to be loaded.
 
-## Build instructions
+## Build instructions (Linux)
 
 [CMake](https://cmake.org/) is used the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed as an ImageJ plugin.
 
@@ -60,6 +60,13 @@ cp libmmgr_dal_LaserDiodeDriver.so.0 /path/to/ImageJ
 
 9. Run Micro-Manager and create a new hardware configuration with the `LaserDiodeDriver` device adapter.
 
+## Arduino setup
+
+If you want to use an Arduino connected to two [MCP4728]() DACs ([Fritzing - TODO]()) you need to setup your Arduino first.
+
+1. Connect the MACP4728s to the Arduino as shown in this [Fritzing Diagram - TODO]().
+2. Using the [Arduino IDE](), upload the Sketch (ArduinoSetup.ino)[] to your Arduino. This will set the address of the MCP4728 connected to the LDAC pin to `0x61` so it can be controlled individually.
+
 ## Additional setup
 
 If you want to run Micro-Manager with the adapter enabled without `sudo`, add a `.rules` file with the following content to `/etc/udev/rules.d/`:
@@ -67,3 +74,9 @@ If you want to run Micro-Manager with the adapter enabled without `sudo`, add a 
 ```
 KERNEL=="comedi0", MODE="0666"
 ```
+
+# License
+
+This project is licensed under the MIT license.
+
+Excluded from this is the Arduino Setup Sketch which uses the [SoftI2cMaster](https://github.com/TrippyLighting/SoftI2cMaster) library which is licensed under the GNU GPLv3 and is in turn licensed under the same license.

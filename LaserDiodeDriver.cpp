@@ -28,11 +28,20 @@
 #include <iostream>
 #include <sstream>
 
+#ifdef BUILD_K8061
 #include "K8061.h"
-#include "DummyBoard.h"
-
 const char* g_BoardK8061 = "K8061";
+#endif
+
+#ifdef BUILD_DUMMY
+#include "DummyBoard.h"
 const char* g_BoardDummy = "Dummy";
+#endif
+
+#ifdef BUILD_ARDUINO
+#include "Arduino.h"
+const char* g_BoardArduino = "Arduino";
+#endif
 
 const char* const g_Msg_DEVICE_INVALID_BOARD_TYPE = "This board type is not supported. Supported values are: 'K8061' and 'Dummy'.";
 
@@ -97,9 +106,9 @@ LaserDiodeDriver::LaserDiodeDriver() {
 
    int ret;
    numberOfLasers_ = 1;
-   ret = CreateStringProperty("Board Type", g_BoardK8061, false, NULL, true);
+   ret = CreateStringProperty("Board Type", "e.g. \"ARDUINO\"", false, NULL, true);
    ret = CreateIntegerProperty("Number of Lasers", 1, false, NULL, true);
-   ret = CreateStringProperty("Device Directory (K8061 only)", "/dev/comedi0", false, NULL, true);
+   ret = CreateStringProperty("Device Path/Serial Port", "/dev/comedi0", false, NULL, true);
 }
 
 /**
@@ -146,19 +155,33 @@ int LaserDiodeDriver::Initialize()
    char boardType[MM::MaxStrLength];
    GetProperty("Board Type", boardType);
 
+   // TODO: This is rather ugly
+#ifdef BUILD_K8061
    if (strcmp(boardType, g_BoardK8061) == 0) {
       char dir[MM::MaxStrLength];
-      GetProperty("Device Directory (K8061 only)", dir);
+      GetProperty("Device Path/Serial Port", dir);
    
       std::string deviceDir = std::string(dir);
 
       interface_ = new K8061(deviceDir);
-   } else if (strcmp(boardType, g_BoardDummy) == 0) {
+   } else 
+#endif
+#ifdef BUILD_DUMMY
+   if (strcmp(boardType, g_BoardDummy) == 0) {
       interface_ = new DummyBoard();
-   } else {
-      ret = DEVICE_INVALID_BOARD_TYPE;
-      return ret;
-   }
+   } else 
+#endif
+#ifdef BUILD_ARDUINO
+   if (strcmp(boardType, g_BoardArduino) == 0) {
+      char dir[MM::MaxStrLength];
+      GetProperty("Device Path/Serial Port", dir);
+   
+      std::string deviceDir = std::string(dir);
+      
+      interface_ = new Arduino(deviceDir);
+   } else 
+#endif
+   return DEVICE_INVALID_BOARD_TYPE;
    
    interface_->Open();
    if (!interface_->DeviceIsOpen()) {
@@ -229,7 +252,6 @@ int LaserDiodeDriver::OnLaserMinPower(MM::PropertyBase* pProp, MM::ActionType eA
       std::string pName = pProp->GetName();
       pProp->Get(value);
 
-      int ret;
       int idx = -1;
 
       sscanf(pName.c_str(), "Min. Laser Power %d (%%)", &idx);
@@ -258,7 +280,6 @@ int LaserDiodeDriver::OnLaserMaxPower(MM::PropertyBase* pProp, MM::ActionType eA
       std::string pName = pProp->GetName();
       pProp->Get(value);
 
-      int ret;
       int idx = -1;
 
       sscanf(pName.c_str(), "Max. Laser Power %d (%%)", &idx);
