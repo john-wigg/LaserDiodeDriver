@@ -1,0 +1,13 @@
+name: windows build
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get micro-manager 2
+        run: git clone https://github.com/micro-manager/micro-manager
+      - name: configure
+        run: mkdir build && cd build && cmake .. -DMMROOT=micro-manager
+      - name: build
+        run: cd build && cmake --build .

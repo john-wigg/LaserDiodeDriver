@@ -1,5 +1,8 @@
 # LaserDiodeDriver
 
+[![Linux Build](https://github.com/john-wigg/LaserDiodeDriver/workflows/linux%20build/badge.svg)](https://github.com/john-wigg/LaserDiodeDriver/actions)
+[![Windows Build](https://github.com/john-wigg/LaserDiodeDriver/workflows/windows%20build/badge.svg)](https://github.com/john-wigg/LaserDiodeDriver/actions)
+
 This [Micro-Manager](https://github.com/micro-manager/micro-manager) device adapter is part of a project by Daniel Schröder at the FSU Jena. It can be used to control laser diodes via an interface board. The only currently supported board is the Velleman K8061. The adapter uses the [comedi](https://www.comedi.org/) library to communicate with the K8061 and is thus only available on Linux.
 
 ## EMU interface
