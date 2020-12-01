@@ -53,7 +53,7 @@ void parseBuffer(char *buffer, size_t length) {
             mcp1.begin();
             mcp2.begin();
             break;
-        case CODE_CLOSE: // Close the device
+        case CODE_CLOSE: // Save current settings to EEPROM
             mcp1.saveToEEPROM();
             mcp2.savetoEEPROM();
             break;

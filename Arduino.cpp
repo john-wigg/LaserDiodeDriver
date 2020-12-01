@@ -18,10 +18,11 @@ Arduino::~Arduino() {
 }
 
 int Arduino::Open() {
-
     dev_.open();
 
     if (!dev_.isOpen()) return 1;
+
+    dev_.write(std::vector<uint8_t>({CODE_OPEN}));
 
     return 0;
 }
@@ -33,17 +34,34 @@ bool Arduino::DeviceIsOpen() const {
 int Arduino::WriteAnalogRelative(unsigned int channel, double relative_value) {
     if (!dev_.isOpen()) return 1;
 
-    dev_.write(std::vector<uint8_t>({CODE_WRITE_ANALOG, (uint8_t)channel}));
-    dev_.write(std::to_string(relative_value) + '\0');
+    std::string value_string = std::to_string(relative_value);
+
+    std::vector<uint8_t> sendbuf;
+
+    sendbuf.push_back(CODE_WRITE_ANALOG);
+    sendbuf.push_back(channel);
+    std::copy(value_string.begin(), value_string.end(), std::back_inserter(sendbuf));
+    sendbuf.push_back('\0'); // null terminator for atof on Arduino
+    sendbuf.push_back('\n');
+
+    dev_.write(sendbuf);
 
     return 0;
 };
 
 int Arduino::WriteDigital(unsigned int channel, bool value) {
     if (!dev_.isOpen()) return 1;
-    
-    dev_.write(std::vector<uint8_t>({CODE_WRITE_DIGITAL, (uint8_t)channel}));
-    if (value) dev_.write(std::vector<uint8_t>({(0x01)}));
-    else dev_.write(std::vector<uint8_t>({(0x00)}));
+
+    std::vector<uint8_t> sendbuf;
+    sendbuf.push_back(CODE_WRITE_DIGITAL);
+    sendbuf.push_back(channel);
+
+    if (value) sendbuf.push_back(0x01);
+    else sendbuf.push_back(0x00);
+
+    sendbuf.push_back('\n');
+
+    dev_.write(sendbuf);
+
     return 0;
 };
