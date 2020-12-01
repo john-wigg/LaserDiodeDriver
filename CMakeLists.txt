@@ -28,7 +28,7 @@ endif()
 
 # Add sources for specific interface boards
 if (BUILD_K8061)
-       target_link_libraries(mmgr_dal_LaserDiodeDriver comedi)
+       target_link_libraries(mmgr_dal_LaserDiodeDriver PRIVATE comedi)
        target_compile_definitions(mmgr_dal_LaserDiodeDriver PUBLIC -DBUILD_K8061)
        target_sources(mmgr_dal_LaserDiodeDriver PRIVATE K8061.cpp)
 endif()
@@ -40,11 +40,14 @@ if (BUILD_DUMMY)
 endif()
 
 if (BUILD_ARDUINO)
-       add_subdirectory(vendor/serial)
        target_compile_definitions(mmgr_dal_LaserDiodeDriver PUBLIC -DBUILD_ARDUINO)
        target_sources(mmgr_dal_LaserDiodeDriver PRIVATE Arduino.cpp)
+       add_subdirectory(vendor/serial)
        target_link_libraries(mmgr_dal_LaserDiodeDriver PRIVATE serial)
        target_include_directories(serial PUBLIC vendor/serial/include)
+       if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+              target_compile_options(serial PRIVATE -fPIC) # Needed to built shared library on GCC
+       endif()
 endif()
 
 # Disable precompiler warnigs for functions such as sscanf() in MSVC

@@ -6,7 +6,10 @@
 #include "serial/serial.h"
 
 Arduino::Arduino(std::string dev_path) {
-    dev_path_ = dev_path;
+    auto timeout = serial::Timeout::simpleTimeout(1000);
+    dev_.setTimeout(timeout);
+    dev_.setBaudrate(BAUD);
+    dev_.setPort(dev_path);
 }
 
 Arduino::~Arduino() {
@@ -15,9 +18,7 @@ Arduino::~Arduino() {
 }
 
 int Arduino::Open() {
-    dev_.setTimeout(serial::Timeout::simpleTimeout(1000));
-    dev_.setBaudrate(BAUD);
-    dev_.setPort(dev_path_);
+
     dev_.open();
 
     if (!dev_.isOpen()) return 1;

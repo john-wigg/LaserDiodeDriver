@@ -25,7 +25,6 @@ class Arduino : public InterfaceBoard {
         int WriteDigital(unsigned int channel, bool value);
         bool DeviceIsOpen() const;
     private:
-        std::string dev_path_;
         serial::Serial dev_;
         bool is_open_ = false;
 };
