@@ -14,8 +14,9 @@ Sometimes, when setting the number of laser diodes, the hardware configuration m
 
 ### Linux
 
-`sudo apt-get install libcomedi-dev`
+The [comedi](https://www.comedi.org/) library is required to run the K8061 board on Linux.
 
+`sudo apt-get install libcomedi-dev`
 
 
 ## Build instructions (Tested on Windows and Linux)
@@ -74,10 +75,15 @@ TODO: File ending is `.dll` on Windows.
 
 ## Arduino setup
 
-If you want to use an Arduino connected to two [MCP4728]() DACs ([Fritzing - TODO]()) you need to setup your Arduino first.
+If you want to use an Arduino connected to two [MCP4728](https://learn.adafruit.com/adafruit-mcp4728-i2c-quad-dac) DACs you need to setup your Arduino first. You only have to follow these steps once for the initial setup.
 
-1. Connect the MACP4728s to the Arduino as shown in this [Fritzing Diagram - TODO]().
-2. Using the [Arduino IDE](), upload the Sketch (ArduinoSetup.ino)[] to your Arduino. This will set the address of the MCP4728 connected to the LDAC pin to `0x61` so it can be controlled individually.
+1. Connect the two MACP4728s to the Arduino as shown in the Fritzing diagram below (here shown for an Arduino Nano):
+![](media/fritzings/arduino_breadboard.png)
+2. Install the [Adafruit_MCP4728](https://github.com/adafruit/Adafruit_MCP4728) library. This can be done directly from the Arduino IDE under `Tools > Manage Libraries...`. Make sure you install the library by **Adafruit**.
+![](media/library_manager.png)
+1. Using the [Arduino IDE](https://www.arduino.cc/en/software), upload the `Setup.ino` [sketch](arduino_sketches/Setup.ino) to your Arduino. This will set the address of the MCP4728 which has its LDAC pin connected to the D2 pin of the Arduino (pink wire) to `0x61` so it can be controlled individually.
+1. If the setup sketch has executed successfully, you may remove the pink wire connecting the LDAC pin to the Arduino.
+1. Upload the `Program.ino` [sketch](arduino_sketches/Program.ino) to your Arduino.
 
 ## Additional setup (Linux only)
 
@@ -91,4 +97,6 @@ KERNEL=="comedi0", MODE="0666"
 
 This project is licensed under the MIT license.
 
-Excluded from this is the Arduino Setup Sketch which uses the [SoftI2cMaster](https://github.com/TrippyLighting/SoftI2cMaster) library which is licensed under the GNU GPLv3 and is in turn licensed under the same license. The Sketch `Setup.ino` has been originally created by Jan Knipper (https://github.com/jknipper/mcp4728_program_address) and is used [with the author's permission](https://github.com/jknipper/mcp4728_program_address/issues/1).
+Excluded from this is the Arduino Setup Sketch which uses the [SoftI2cMaster](https://github.com/TrippyLighting/SoftI2cMaster) library and is licensed under the GNU GPLv3.
+
+The `Setup.ino` sketch has been originally created by Jan Knipper (https://github.com/jknipper/mcp4728_program_address) and is used [with the author's permission](https://github.com/jknipper/mcp4728_program_address/issues/1).
