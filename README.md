@@ -26,7 +26,7 @@ The [comedi](https://www.comedi.org/) library is required to run the Velleman K8
 
 ## Build instructions (tested on Windows and Linux)
 
-[CMake](https://cmake.org/) is used the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed as an ImageJ plugin.
+[CMake](https://cmake.org/) is used as the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed on your Linux or Windows machine.
 
 1. Clone the Micro-Manager 2 source:
 ```
