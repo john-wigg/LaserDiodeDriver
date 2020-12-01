@@ -11,6 +11,7 @@ The adapter uses the [comedi](https://www.comedi.org/) library to communicate wi
 
 An [EMU](https://micro-manager.org/wiki/EMU) plugin designed to be used with this adapter is available at https://github.com/john-wigg/LaserDiodeDriverUI.
 
+## Table of contents
 * [Known issues](#known-issues)
 * [Prerequisites](#prerequisites)
 * [Build instructions](#build-instructions-tested-on-windows-and-linux)
