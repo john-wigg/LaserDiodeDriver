@@ -3,7 +3,9 @@
 [![Linux Build](https://github.com/john-wigg/LaserDiodeDriver/workflows/linux%20build/badge.svg)](https://github.com/john-wigg/LaserDiodeDriver/actions)
 [![Windows Build](https://github.com/john-wigg/LaserDiodeDriver/workflows/windows%20build/badge.svg)](https://github.com/john-wigg/LaserDiodeDriver/actions)
 
-This [Micro-Manager](https://github.com/micro-manager/micro-manager) device adapter is part of a project by Daniel Schröder at the FSU Jena. It can be used to control laser diodes via an interface board. The only currently supported board is the Velleman K8061. The adapter uses the [comedi](https://www.comedi.org/) library to communicate with the K8061 and is thus only available on Linux.
+This [Micro-Manager](https://github.com/micro-manager/micro-manager) device adapter is part of a project by Daniel Schröder at the FSU Jena and can be used to control laser diodes. Both the [Velleman K8061](https://www.velleman.eu/products/view/?lang=en&id=364910) as well as a setup using an [Arduino](https://www.arduino.cc/) together with two [MCP4728](https://www.adafruit.com/product/4470) DACs can be used with the adapter.
+
+The adapter uses the [comedi](https://www.comedi.org/) library to communicate with the Velleman K8061. Thus, on Windows the Velleman K8061 is not supported. However, the adapter can still be used with the Arduino setup.
 
 ## EMU interface
 
@@ -17,7 +19,7 @@ Sometimes, when setting the number of laser diodes, the hardware configuration m
 
 ### Linux
 
-The [comedi](https://www.comedi.org/) library is required to run the K8061 board on Linux.
+The [comedi](https://www.comedi.org/) library is required to run the Velleman K8061 board on Linux. It can be installed with
 
 `sudo apt-get install libcomedi-dev`
 
@@ -53,7 +55,7 @@ cmake .. -DMMROOT=path/to/micro-manager
 ```
 (If the `MMROOT` option is not specified, it is assumed that the `LaserDiodeDriver` directory is located inside the `DeviceAdapters` or `TestDeviceAdapters` directory inside Micro-Manager's source tree.)
 
-**Note**: If the compilation completes but you get "undefined reference" errors when trying to open the adapter in Micro-Manager, the path to Micro-Manager was probably incorrect.
+**Note**: If the compilation completes but you get "undefined reference" errors when trying to open the adapter in Micro-Manager, the path to Micro-Manager was probably incorrect. Note that if not absolute, paths are relative to the repos root directory (the directory containing `CMakeListst.txt`).
 
 6. Run the build:
 ```
