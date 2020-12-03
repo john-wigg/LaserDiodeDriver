@@ -106,9 +106,9 @@ LaserDiodeDriver::LaserDiodeDriver() {
 
    int ret;
    numberOfLasers_ = 1;
-   ret = CreateStringProperty("Board Type", "e.g. \"ARDUINO\"", false, NULL, true);
+   ret = CreateStringProperty("Board Type", "e.g. \"Arduino\"", false, NULL, true);
    ret = CreateIntegerProperty("Number of Lasers", 1, false, NULL, true);
-   ret = CreateStringProperty("Device Path/Serial Port", "/dev/comedi0", false, NULL, true);
+   ret = CreateStringProperty("Device Path/Serial Port", "e.g. \"/dev/comedi0\" or \"COM1\"", false, NULL, true);
 }
 
 /**
