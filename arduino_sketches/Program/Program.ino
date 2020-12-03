@@ -50,11 +50,11 @@ void loop () {
 void parseBuffer(char *buffer, size_t length) {
     if (length == 0) return; // Buffer is empty, can't parse
     char code = buffer[0];
-    switch (code) {
+    switch (code)  {
         case CODE_OPEN: // Open the device
         {
-            mcp1.begin();
-            mcp2.begin();
+            mcp1.begin(0x60);
+            mcp2.begin(0x61);
         }
             break;
         case CODE_CLOSE: // Save current settings to EEPROM
@@ -70,6 +70,7 @@ void parseBuffer(char *buffer, size_t length) {
             Adafruit_MCP4728 *dev;
             if (ch > 3) dev = &mcp2;
             else dev = &mcp1;
+            
             ch %= 4;
 
             double rel_val = atof(buffer+2);
