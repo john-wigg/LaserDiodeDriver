@@ -59,8 +59,8 @@ void parseBuffer(char *buffer, size_t length) {
             break;
         case CODE_CLOSE: // Save current settings to EEPROM
         {
-            mcp1.saveToEEPROM();
-            mcp2.saveToEEPROM();
+            //mcp1.saveToEEPROM();
+            //mcp2.saveToEEPROM();
         }
             break;
         case CODE_WRITE_ANALOG: // Write to MCPs analog channel
