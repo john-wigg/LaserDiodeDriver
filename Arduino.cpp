@@ -13,7 +13,7 @@ Arduino::Arduino(std::string dev_path) {
 }
 
 Arduino::~Arduino() {
-    dev_.write(std::vector<uint8_t>({CODE_CLOSE}));
+    dev_.write(std::vector<uint8_t>({CODE_CLOSE, '\n'}));
     dev_.close();
 }
 
@@ -22,7 +22,7 @@ int Arduino::Open() {
 
     if (!dev_.isOpen()) return 1;
 
-    dev_.write(std::vector<uint8_t>({CODE_OPEN}));
+    dev_.write(std::vector<uint8_t>({CODE_OPEN, '\n'}));
 
     return 0;
 }
