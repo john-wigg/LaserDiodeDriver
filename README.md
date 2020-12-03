@@ -98,11 +98,11 @@ Instead of the expensive Velleman K8061, it is also possible to use a cheaper se
 
 ![](media/library_manager.png)
 
-3. Using the [Arduino IDE](https://www.arduino.cc/en/software), upload the `Setup.ino` [sketch](arduino_sketches/Setup.ino) to your Arduino. This will set the address of the MCP4728 which has its `LDAC` pin connected to the Arduino (pink wire) to `0x61` so it can be controlled individually.
+3. Download the [arduino_sketches/Setup](arduino_sketches/Setup) directory and upload the `Setup.ino` sketch to your Arduino using the [Arduino IDE](https://www.arduino.cc/en/software). This will set the address of the MCP4728 which has its `LDAC` pin connected to the Arduino (pink wire) to `0x61` so it can be controlled individually.
 
 4. If the setup sketch has executed successfully, you may remove the pink wire connecting the `LDAC` pin to the Arduino.
  
-5. Upload the `Program.ino` [sketch](arduino_sketches/Program.ino) to your Arduino.
+5. Download the [arduino_sketches/Program](arduino_sketches/Program) directory and upload the `Program.ino` sketch to your Arduino.
 
 ## Additional setup (Linux only)
 
