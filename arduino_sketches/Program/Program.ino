@@ -79,11 +79,11 @@ void parseBuffer(char *buffer, size_t length) {
             break;
         case CODE_WRITE_DIGITAL: // Write do Arduino's digital channel
         {
-            char ch = buffer[1] + DIGITAL_PIN_OFFSET; // channel
+            char ch = buffer[1]; // channel
             if (ch >= 8) return; // We only use 8 channels.
             char val = buffer[2]; // value
-            if (val) digitalWrite(ch, HIGH);
-            else digitalWrite(ch, LOW);
+            if (val) digitalWrite(ch + DIGITAL_PIN_OFFSET, HIGH);
+            else digitalWrite(ch + DIGITAL_PIN_OFFSET, LOW);
         }
             break;
     }
