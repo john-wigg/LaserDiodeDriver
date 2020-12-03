@@ -12,7 +12,6 @@
 #define LDAC_PIN 2
 
 // Define address here (0-7)
-#define OLD_ADDRESS 0
 #define NEW_ADDRESS 1
 
 #ifdef CORE_TEENSY
@@ -32,30 +31,40 @@ void setup() {
   i2c.init(SCL_PIN, SDA_PIN);
   delay(250);
 
-  writeAddress(OLD_ADDRESS, NEW_ADDRESS, LDAC_PIN);
+  int addr_old = readAddress(LDAC_PIN);
+
+  writeAddress(addr_old, NEW_ADDRESS, LDAC_PIN);
   delay(250);
 
   uint8_t addr = readAddress(LDAC_PIN);
 
   if (addr == NEW_ADDRESS) {
-      Serial.println("Reprogrammed MCP4728 address successfully. You may now disconnect the MCP4728s LDAC pin form the Arduino.");
+    Serial.println("Successfully set I2C address of the MCP4728! You may not remove the wire connecting the LDAC pin to the Arduino.");
+    Serial.print("(New address is 0x6");
+    Serial.print(addr);
+    Serial.print(", old address was 0x6");
+    Serial.print(addr_old);
+    Serial.println(".)");
   } else {
-      Serial.println("Could NOT reprogram MCP4728 address. Please check your wiring.");
+    Serial.println("There was an error setting the new address. Please make sure all wirings are correct!");
   }
 }
 
 void loop() {}
 
-uint8_t readAddress(int LDACpin) {
+int readAddress(int LDACpin) { // Read address bits in EEPROM
   digitalWrite(LDACpin, HIGH);
   int ack1 = i2c.start(0B00000000);
   int ack2 = i2c.ldacwrite(0B00001100, LDACpin); // modified command for LDAC pin latch
   int ack3 = i2c.restart(0B11000001);
-  uint8_t address = i2c.read(true);
+  uint8_t address_bits = i2c.read(true);
   i2c.stop();
   delay(100);
   digitalWrite(LDACpin, HIGH);
-  return address;
+  if (!(ack1 && ack2 && ack3)) {
+    Serial.println("Error reading address bits!");
+  }
+  return (address_bits & 0B11100000) >> 5;
 }
 
 void writeAddress(int oldAddress, int newAddress, int LDACpin) {
@@ -66,4 +75,7 @@ void writeAddress(int oldAddress, int newAddress, int LDACpin) {
   int ack4 = i2c.write( 0B01100011 | (newAddress << 2));
   i2c.stop();
   delay(100); // wait for eeprom write
+  if(!(ack1 && ack2 && ack3 && ack4)) {
+    Serial.println("Error writing address bits!");
+  }
 }
