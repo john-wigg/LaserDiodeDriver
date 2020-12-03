@@ -19,7 +19,7 @@
  */
 #ifndef SOFT_I2C_MASTER
 #define SOFT_I2C_MASTER
-#include <TwoWireBase.h>
+#include "TwoWireBase.h"
 
 // delay used to tweek signals
 #define I2C_DELAY_USEC 10
