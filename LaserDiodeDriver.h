@@ -1,30 +1,28 @@
-///////////////////////////////////////////////////////////////////////////////
-// FILE:          LaserDiodeDriver.h
-// PROJECT:       Micro-Manager
-// SUBSYSTEM:     DeviceAdapters
-//-----------------------------------------------------------------------------
-// DESCRIPTION:   Device adapter for the laser driver used in a project by
-//                Daniel Schröder at the FSU Jena. Uses a Velleman K8061
-//                interface board via the comedilib driver.
-//                
-// AUTHOR:        John Wigg
-//                
-// COPYRIGHT:     
-//
-// LICENSE:       This file is distributed under the BSD license.
-//                License text is included with the source distribution.
-//
-//                This file is distributed in the hope that it will be useful,
-//                but WITHOUT ANY WARRANTY; without even the implied warranty
-//                of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-//
-//                IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-//                CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//                INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
-//
+/* LaserDiodeDriver.h
+ *
+ * Copyright (C) 2020 John Wigg
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
 
-#ifndef _LaserDiodeDriver_H_
-#define _LaserDiodeDriver_H_
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#ifndef LASERDIODEDRIVER_H_
+#define LASERDIODEDRIVER_H_
 
 #include "InterfaceBoard.h"
 
@@ -34,9 +32,6 @@
 
 #include <string>
 
-//////////////////////////////////////////////////////////////////////////////
-// Error codes
-//
 #define ERR_UNKNOWN_MODE         102
 
 class LaserDiodeDriver : public CGenericBase<LaserDiodeDriver>  
@@ -46,14 +41,12 @@ public:
    ~LaserDiodeDriver();
   
    // MMDevice API
-   // ------------
    int Initialize();
    int Shutdown();
   
    void GetName(char* name) const;      
    
    // LaserDiodeDriver API
-   // ---------------
    int SetLaserPower(int idx, double power) const;
    int SetLaserOnOff(int idx, bool enabled) const;
 
@@ -73,4 +66,4 @@ private:
    int numberOfLasers_;
 };
 
-#endif //_LaserDiodeDriver_H_
+#endif //LASERDIODEDRIVER_H_

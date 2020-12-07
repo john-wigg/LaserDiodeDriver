@@ -1,27 +1,25 @@
-///////////////////////////////////////////////////////////////////////////////
-// FILE:          LaserDiodeDriver.cpp
-// PROJECT:       Micro-Manager
-// SUBSYSTEM:     DeviceAdapters
-//-----------------------------------------------------------------------------
-// DESCRIPTION:   Device adapter for the laser driver used in a project by
-//                Daniel Schröder at the FSU Jena. Uses a Velleman K8061
-//                interface board via the comedilib driver.
-//                
-// AUTHOR:        John Wigg
-//                
-// COPYRIGHT:     
-//
-// LICENSE:       This file is distributed under the BSD license.
-//                License text is included with the source distribution.
-//
-//                This file is distributed in the hope that it will be useful,
-//                but WITHOUT ANY WARRANTY; without even the implied warranty
-//                of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-//
-//                IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-//                CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//                INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
-//
+/* LaserDiodeDriver.cpp
+ *
+ * Copyright (C) 2020 John Wigg
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include "LaserDiodeDriver.h"
 
@@ -52,13 +50,6 @@ const char* OFF = "Off";
 
 #define DEVICE_INVALID_BOARD_TYPE 142
 
-///////////////////////////////////////////////////////////////////////////////
-// Exported MMDevice API
-///////////////////////////////////////////////////////////////////////////////
-
-/**
- * List all supported hardware devices here
- */
 MODULE_API void InitializeModuleData()
 {
    RegisterDevice(g_LaserDiodeDriverName, MM::GenericDevice, "Laser diode driver device adapter.");
@@ -85,20 +76,6 @@ MODULE_API void DeleteDevice(MM::Device* pDevice)
    delete pDevice;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// MMCamera implementation
-// ~~~~~~~~~~~~~~~~~~~~~~~
-
-/**
-* MMCamera constructor.
-* Setup default all variables and create device properties required to exist
-* before intialization. In this case, no such properties were required. All
-* properties will be created in the Initialize() method.
-*
-* As a general guideline Micro-Manager devices do not access hardware in the
-* the constructor. We should do as little as possible in the constructor and
-* perform most of the initialization in the Initialize() method.
-*/
 LaserDiodeDriver::LaserDiodeDriver() {
    // call the base class method to set-up default error codes/messages
    InitializeDefaultErrorMessages();
@@ -111,36 +88,17 @@ LaserDiodeDriver::LaserDiodeDriver() {
    ret = CreateStringProperty("Device Path/Serial Port", "e.g. \"/dev/comedi0\" or \"COM1\"", false, NULL, true);
 }
 
-/**
-* MMCamera destructor.
-* If this device used as intended within the Micro-Manager system,
-* Shutdown() will be always called before the destructor. But in any case
-* we need to make sure that all resources are properly released even if
-* Shutdown() was not called.
-*/
 LaserDiodeDriver::~LaserDiodeDriver()
 {
    if (initialized_)
       Shutdown();
 }
 
-/**
-* Obtains device name.
-* Required by the MM::Device API.
-*/
 void LaserDiodeDriver::GetName(char* name) const
 {
-   // We just return the name we use for referring to this
-   // device adapter.
    CDeviceUtils::CopyLimitedString(name, g_LaserDiodeDriverName);
 }
 
-/**
-* Intializes the hardware.
-* Typically we access and initialize hardware at this point.
-* Device properties are typically created here as well.
-* Required by the MM::Device API.
-*/
 int LaserDiodeDriver::Initialize()
 {
    long value;
@@ -233,12 +191,6 @@ int LaserDiodeDriver::Initialize()
    return DEVICE_OK;
 }
 
-/**
-* Shuts down (unloads) the device.
-* Ideally this method will completely unload the device and release all resources.
-* Shutdown() may be called multiple times in a row.
-* Required by the MM::Device API.
-*/
 int LaserDiodeDriver::Shutdown()
 {
    initialized_ = false;
@@ -303,7 +255,6 @@ int LaserDiodeDriver::OnLaserMaxPower(MM::PropertyBase* pProp, MM::ActionType eA
 }
 
 int LaserDiodeDriver::OnLaserOnOff(MM::PropertyBase* pProp, MM::ActionType eAct) {   
-   // TODO: Check MM::BeforeSet to check whether values are as expected.
    if (eAct == MM::AfterSet) {
       std::string value;
       std::string pName = pProp->GetName();

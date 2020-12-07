@@ -18,7 +18,8 @@
  * This program is based on MCP4728 program address by Jan Knipper:
  * [https://github.com/jknipper/mcp4728_program_address]
  * 
- * It is used and licensed with permission from the author.
+ * It is used and licensed with permission from the author:
+ * [https://github.com/jknipper/mcp4728_program_address/issues/1]
  */
 
 #include <Arduino.h>
