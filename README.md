@@ -114,9 +114,9 @@ KERNEL=="comedi0", MODE="0666"
 
 # License
 
-This project is licensed under the MIT license.
+This project is licensed under the [MIT license](LICENSE).
 
-Exempt from this is the `Setup.ino` sketch which uses the [SoftI2cMaster](https://github.com/TrippyLighting/SoftI2cMaster) library and is licensed under the GNU GPLv3.
+Exempt from this is the `Setup.ino` sketch which uses the [SoftI2cMaster](https://github.com/TrippyLighting/SoftI2cMaster) library and is licensed under the [GNU GPLv3](arduino_sketches/Setup/LICENSE).
 
 The `Setup.ino` sketch has been originally created by Jan Knipper (https://github.com/jknipper/mcp4728_program_address) and is used [with the author's permission](https://github.com/jknipper/mcp4728_program_address/issues/1).
 
