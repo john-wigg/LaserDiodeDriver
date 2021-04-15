@@ -34,11 +34,13 @@ The [comedi](https://www.comedi.org/) library is required to run the Velleman K8
 
 ## Build instructions (tested on Windows and Linux)
 
+*Note*: You can find pre-built binaries for Linux [here](https://github.com/john-wigg/LaserDiodeDriver/releases).
+
 [CMake](https://cmake.org/) is used as the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed on your Linux or Windows machine.
 
-1. Clone the Micro-Manager 2 source:
+1. Clone the Micro-Manager core source:
 ```
-git clone https://github.com/micro-manager/micro-manager
+git clone https://github.com/micro-manager/mmCoreAndDevices
 ```
 
 2. Clone this respository to a directory:
@@ -57,13 +59,13 @@ mkdir build
 cd build
 ```
 
-5. Generate the build files and specify the source directory of Micro-Manager:
+5. Generate the build files and specify the source directory of the Micro-Manager core:
 ```
-cmake .. -DMMROOT=path/to/micro-manager
+cmake .. -DMMROOT=path/to/mmCoreAndDevices
 ```
-(If the `MMROOT` option is not specified, it is assumed that the `LaserDiodeDriver` directory is located inside the `DeviceAdapters` or `TestDeviceAdapters` directory inside Micro-Manager's source tree.)
+(If the `MMROOT` option is not specified, it is assumed that the `LaserDiodeDriver` directory is located inside the `DeviceAdapters` or `TestDeviceAdapters` directory inside Micro-Manager core's source tree.)
 
-**Note**: If the compilation completes but you get "undefined reference" errors when trying to open the adapter in Micro-Manager, the path to Micro-Manager was probably incorrect. Note that if not absolute, paths are relative to the repos root directory (the directory containing `CMakeListst.txt`).
+**Note**: If the compilation completes but you get "undefined reference" errors when trying to open the adapter in Micro-Manager, the path to the Micro-Manager core was probably incorrect. Note that if not absolute, paths are relative to the repos root directory (the directory containing `CMakeListst.txt`).
 
 6. Run the build:
 ```
