@@ -10,10 +10,10 @@ jobs:
     steps:
     - name: checkout local
       uses: actions/checkout@v2
-    - name: checkout mm source
+    - name: checkout mm core
       uses: actions/checkout@v2
       with:
-        repository: micro-manager/micro-manager
+        repository: micro-manager/mmCoreAndDevices
         path: micro-manager
     - name: install comedilib
       run: sudo apt-get install libcomedi-dev

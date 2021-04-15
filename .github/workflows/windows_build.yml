@@ -4,9 +4,13 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: get micro-manager 2
-        run: git clone https://github.com/micro-manager/micro-manager
+      - name: checkout local
+        uses: actions/checkout@v2
+      - name: checkout mm core
+        uses: actions/checkout@v2
+        with:
+          repository: micro-manager/mmCoreAndDevices
+          path: micro-manager
       - name: configure
         run: mkdir build && cd build && cmake .. -DMMROOT=micro-manager
       - name: build
