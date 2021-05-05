@@ -34,7 +34,7 @@ The [comedi](https://www.comedi.org/) library is required to run the Velleman K8
 
 ## Build instructions (tested on Windows and Linux)
 
-*Note*: You can find pre-built binaries for Linux [here](https://github.com/john-wigg/LaserDiodeDriver/releases).
+*Note*: You can find pre-built binaries [here](https://github.com/john-wigg/LaserDiodeDriver/releases).
 
 [CMake](https://cmake.org/) is used as the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed on your Linux or Windows machine.
 
