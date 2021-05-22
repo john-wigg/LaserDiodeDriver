@@ -151,16 +151,16 @@ int LaserDiodeDriver::Initialize()
       return ret;
    }
 
-   CPropertyAction* pActLaserPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserPower);
-   CPropertyAction* pActLaserOnOff = new CPropertyAction (this, &LaserDiodeDriver::OnLaserOnOff);
-   CPropertyAction* pActLaserMinPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMinPower);
-   CPropertyAction* pActLaserMaxPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMaxPower);
-
    std::vector<std::string> digitalValues;
    digitalValues.push_back(OFF);
    digitalValues.push_back(ON);
 
    for (int i = 0; i < numberOfLasers_; ++i) {
+      CPropertyAction* pActLaserPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserPower);
+      CPropertyAction* pActLaserOnOff = new CPropertyAction (this, &LaserDiodeDriver::OnLaserOnOff);
+      CPropertyAction* pActLaserMinPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMinPower);
+      CPropertyAction* pActLaserMaxPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMaxPower);
+
       char p_name[64];
 
       // Laser power
