@@ -52,6 +52,12 @@ constexpr char end_marker = '\n';
 
 void setup() {
     Serial.begin(BAUD);
+
+    // Set pinMode to OUTPUT and set to HIGH.
+    for (int ch = 0; ch < 8; ++ch) {
+        pinMode(DIGITAL_PIN_OFFSET+ch, OUTPUT);
+        digitalWrite(DIGITAL_PIN_OFFSET+ch, HIGH);
+    }
 }
 
 void loop () {
@@ -80,7 +86,7 @@ void parseBuffer(char *buffer, size_t length) {
             mcp2.begin(0x61);
         }
             break;
-        case CODE_CLOSE: // Save current settings to EEPROM
+        case CODE_CLOSE: // Save current settings to EEPROM and set pins to input to prevent damage.
         {
             //mcp1.saveToEEPROM();
             //mcp2.saveToEEPROM();
@@ -105,8 +111,8 @@ void parseBuffer(char *buffer, size_t length) {
             char ch = buffer[1]; // channel
             if (ch >= 8) return; // We only use 8 channels.
             char val = buffer[2]; // value
-            if (val) digitalWrite(ch + DIGITAL_PIN_OFFSET, HIGH);
-            else digitalWrite(ch + DIGITAL_PIN_OFFSET, LOW);
+            if (val) digitalWrite(ch + DIGITAL_PIN_OFFSET, LOW);
+            else digitalWrite(ch + DIGITAL_PIN_OFFSET, HIGH);
         }
             break;
     }
