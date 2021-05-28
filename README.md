@@ -16,6 +16,7 @@ An [EMU](https://micro-manager.org/wiki/EMU) plugin designed to be used with thi
 * [Prerequisites](#prerequisites)
 * [Build instructions](#build-instructions-tested-on-windows-and-linux)
 * [Arduino setup](#arduino-setup)
+* [Outputs](#outputs)
 * [Additional setup (Linux only)](#additional-setup-linux-only)
 * [License](#license)
 
@@ -105,6 +106,20 @@ Instead of the expensive Velleman K8061, it is also possible to use a cheaper se
 4. If the setup sketch has executed successfully, you may remove the pink wire connecting the `LDAC` pin to the Arduino.
  
 5. Download the [arduino_sketches/Program](arduino_sketches/Program) directory and upload the `Program.ino` sketch to your Arduino.
+
+## Outputs
+
+### Digital Outputs
+
+In Micro-Manager, the digital outputs are numbered `0` to `7`.
+On the K8061 board, these will be the digital outputs 1 to 8, in ascending order.
+On the Arduino Nano, these will be D2 to D9, in ascending order.
+
+### Analog Outputs
+
+In Micro-Manager, the analog outputs are numbered `0` to `7`.
+On the K8061 board, these will be the analog outputs 1 to 8, in ascending order.
+On the MCP4728s, these will be the analog outputs A to D, whereas the MCP4728 with address `0x60` (the one closer to the Arduino in the figure above) will correspond to the outputs `0` to `3` and the other MCP4728 will correspond to the outputs `4` to `7`.
 
 ## Additional setup (Linux only)
 
