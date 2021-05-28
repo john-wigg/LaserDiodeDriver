@@ -108,11 +108,13 @@ Instead of the expensive Velleman K8061, it is also possible to use a cheaper se
 
 ## Additional setup (Linux only)
 
-If you want to use the adapter with the K8061 board without `sudo`, add a `.rules` file with the following content to `/etc/udev/rules.d/`:
+If you want to use the adapter without the need for `sudo`, add a `.rules` file with the following content to `/etc/udev/rules.d/`:
 
 ```
-KERNEL=="comedi0", MODE="0666"
+KERNEL=="device_name", MODE="0666"
 ```
+
+where `device_name` is the is the *name* (not path) of the device file, e.g. `comedi0` for the K8061 board and `ttyUSB0` for the Arduino (the trailing `0` may be a different number).
 
 # License
 
