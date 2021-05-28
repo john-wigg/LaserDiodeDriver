@@ -78,12 +78,30 @@ void parseBuffer(char *buffer, size_t length) {
         {
             mcp1.begin(0x60);
             mcp2.begin(0x61);
+            
+            pinMode(DIGITAL_PIN_OFFSET+0, OUTPUT);
+            pinMode(DIGITAL_PIN_OFFSET+1, OUTPUT);
+            pinMode(DIGITAL_PIN_OFFSET+2, OUTPUT);
+            pinMode(DIGITAL_PIN_OFFSET+3, OUTPUT);
+            pinMode(DIGITAL_PIN_OFFSET+4, OUTPUT);
+            pinMode(DIGITAL_PIN_OFFSET+5, OUTPUT);
+            pinMode(DIGITAL_PIN_OFFSET+6, OUTPUT);
+            pinMode(DIGITAL_PIN_OFFSET+7, OUTPUT);
         }
             break;
-        case CODE_CLOSE: // Save current settings to EEPROM
+        case CODE_CLOSE: // Save current settings to EEPROM and set pins to input to prevent damage.
         {
             //mcp1.saveToEEPROM();
             //mcp2.saveToEEPROM();
+            
+            pinMode(DIGITAL_PIN_OFFSET+0, INPUT);
+            pinMode(DIGITAL_PIN_OFFSET+1, INPUT);
+            pinMode(DIGITAL_PIN_OFFSET+2, INPUT);
+            pinMode(DIGITAL_PIN_OFFSET+3, INPUT);
+            pinMode(DIGITAL_PIN_OFFSET+4, INPUT);
+            pinMode(DIGITAL_PIN_OFFSET+5, INPUT);
+            pinMode(DIGITAL_PIN_OFFSET+6, INPUT);
+            pinMode(DIGITAL_PIN_OFFSET+7, INPUT);
         }
             break;
         case CODE_WRITE_ANALOG: // Write to MCPs analog channel
