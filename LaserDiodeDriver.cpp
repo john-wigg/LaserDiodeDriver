@@ -106,7 +106,7 @@ LaserDiodeDriver::~LaserDiodeDriver()
    if (initialized_)
    {
       Shutdown();
-}
+   }
    delete interface_;
 }
 
@@ -170,21 +170,21 @@ int LaserDiodeDriver::Initialize()
       char p_name[64];
 
       // Laser power
-      sprintf(p_name, "Laser Power %d (%%)", i);
+      sprintf(p_name, "Laser Power %d (%%)", i+1);
       ret = CreateFloatProperty(p_name, 0.0, false, pActLaserPower);
       ret = SetPropertyLimits(p_name, 0.0, 100.0);
 
       // Laser on/off
-      sprintf(p_name, "Enable Laser %d", i);
+      sprintf(p_name, "Enable Laser %d", i+1);
       ret = CreateStringProperty(p_name, OFF, false, pActLaserOnOff);
       ret = SetAllowedValues(p_name, digitalValues);
 
       // Laser limits
-      sprintf(p_name, "Min. Laser Power %d (%%)", i);
+      sprintf(p_name, "Min. Laser Power %d (%%)", i+1);
       ret = CreateFloatProperty(p_name, 0.0, false, pActLaserMinPower);
       ret = SetPropertyLimits(p_name, 0.0, 100.0);
 
-      sprintf(p_name, "Max. Laser Power %d (%%)", i);
+      sprintf(p_name, "Max. Laser Power %d (%%)", i+1);
       ret = CreateFloatProperty(p_name, 100.0, false, pActLaserMaxPower);
       ret = SetPropertyLimits(p_name, 0.0, 100.0);
    }
@@ -236,7 +236,7 @@ int LaserDiodeDriver::OnBoardType(MM::PropertyBase* pProp, MM::ActionType eAct) 
 }
 
 int LaserDiodeDriver::OnPort(MM::PropertyBase* pProp, MM::ActionType eAct) {
-   return DEVICE_OK;
+	return DEVICE_OK;
 }
 
 int LaserDiodeDriver::OnLaserMinPower(MM::PropertyBase* pProp, MM::ActionType eAct) {   
@@ -307,9 +307,9 @@ int LaserDiodeDriver::OnLaserOnOff(MM::PropertyBase* pProp, MM::ActionType eAct)
       sscanf(pName.c_str(), "Enable Laser %d", &idx);
 
       if (value == ON) {
-         ret = SetLaserOnOff(idx, true);
+         ret = SetLaserOnOff(idx-1, true);
       } else {
-         ret = SetLaserOnOff(idx, false);
+         ret = SetLaserOnOff(idx-1, false);
       }
 
       if (ret != DEVICE_OK) {
@@ -349,7 +349,7 @@ int LaserDiodeDriver::OnLaserPower(MM::PropertyBase* pProp, MM::ActionType eAct)
 
       pProp->Set(value);
 
-      ret = SetLaserPower(idx, value);
+      ret = SetLaserPower(idx-1, value);
 
       if (ret != DEVICE_OK) {
          // error occure
