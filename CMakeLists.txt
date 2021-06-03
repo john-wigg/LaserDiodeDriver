@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.1)
 project(LaserDiodeDriver LANGUAGES CXX)
 
-option(MMROOT "MMROOT" ../../)
+set(MMROOT "mmCoreAndDevices" CACHE STRING "(Relative or absolute) path to mmCoreAndDevices directory including the directory itself.")
 
 # Fetch MMDevice source
 file(GLOB MMDEVSRC
-       ${MMROOT}/DeviceAdapters/../MMDevice/*.cpp)
+       ${MMROOT}/MMDevice/*.cpp)
 
 # Define library and core sources
 add_library(mmgr_dal_LaserDiodeDriver SHARED LaserDiodeDriver.cpp ${MMDEVSRC})

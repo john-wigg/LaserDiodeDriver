@@ -4,16 +4,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout local
-      uses: actions/checkout@v2
-    - name: checkout mm core
-      uses: actions/checkout@v2
-      with:
-        repository: micro-manager/mmCoreAndDevices
-        path: micro-manager
-    - name: install comedilib
-      run: sudo apt-get install libcomedi-dev
-    - name: configure
-      run: mkdir build && cd build && cmake .. -DMMROOT=micro-manager
-    - name: build
-      run: cd build && cmake --build .
+      - name: checkout local
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: install comedilib
+        run: sudo apt-get install libcomedi-dev
+      - name: configure
+        run: mkdir build && cd build && cmake ..
+      - name: build
+        run: cd build && cmake --build .
