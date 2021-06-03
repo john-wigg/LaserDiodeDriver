@@ -32,15 +32,12 @@ jobs:
     steps:
     - name: checkout local
       uses: actions/checkout@v2
-    - name: checkout mm core
-      uses: actions/checkout@v2
       with:
-        repository: micro-manager/mmCoreAndDevices
-        path: micro-manager
+        submodules: 'recursive'
     - name: install comedilib
       run: sudo apt-get install libcomedi-dev
     - name: configure
-      run: mkdir build && cd build && cmake .. -DMMROOT=micro-manager
+      run: mkdir build && cd build && cmake ..
     - name: build
       run: cd build && cmake --build .
     - name: rename library file
@@ -70,13 +67,10 @@ jobs:
     steps:
     - name: checkout local
       uses: actions/checkout@v2
-    - name: checkout mm core
-      uses: actions/checkout@v2
       with:
-        repository: micro-manager/mmCoreAndDevices
-        path: micro-manager
+        submodules: 'recursive'
     - name: configure
-      run: mkdir build && cd build && cmake .. -DMMROOT=micro-manager
+      run: mkdir build && cd build && cmake ..
     - name: build
       run: cd build && cmake --build . --config Release
     - name: Create ZIP archive
