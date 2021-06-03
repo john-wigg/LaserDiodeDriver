@@ -41,7 +41,7 @@ const char* g_BoardDummy = "Dummy";
 const char* g_BoardArduino = "Arduino";
 #endif
 
-const char* const g_Msg_DEVICE_INVALID_BOARD_TYPE = "This board type is not supported. Supported values are: 'K8061' and 'Dummy'.";
+const char* const g_Msg_DEVICE_INVALID_BOARD_TYPE = "Please choose a valid board type!";
 
 const char* g_LaserDiodeDriverName = "LaserDiodeDriver";
 
@@ -76,22 +76,38 @@ MODULE_API void DeleteDevice(MM::Device* pDevice)
    delete pDevice;
 }
 
-LaserDiodeDriver::LaserDiodeDriver() {
+LaserDiodeDriver::LaserDiodeDriver()  :
+   numberOfLasers_(1)
+{
    // call the base class method to set-up default error codes/messages
    InitializeDefaultErrorMessages();
    SetErrorText(DEVICE_INVALID_BOARD_TYPE, g_Msg_DEVICE_INVALID_BOARD_TYPE);
 
    int ret;
-   numberOfLasers_ = 1;
-   ret = CreateStringProperty("Board Type", "e.g. \"Arduino\"", false, NULL, true);
-   ret = CreateIntegerProperty("Number of Lasers", 1, false, NULL, true);
-   ret = CreateStringProperty("Device Path/Serial Port", "e.g. \"/dev/comedi0\" or \"COM1\"", false, NULL, true);
+   CPropertyAction* pAct = new CPropertyAction(this, &LaserDiodeDriver::OnBoardType);
+   ret = CreateStringProperty("Board Type", "", false, pAct, true);
+#ifdef BUILD_DUMMY
+   AddAllowedValue("Board Type", g_BoardDummy);
+#endif
+#ifdef BUILD_K8061
+   AddAllowedValue("Board Type", g_BoardK8061);
+#endif
+#ifdef BUILD_ARDUINO
+   AddAllowedValue("Board Type", g_BoardArduino);
+#endif
+   pAct = new CPropertyAction(this, &LaserDiodeDriver::OnNumberOfLasers);
+   ret = CreateIntegerProperty("Number of Lasers", 1, false, pAct, true);
+   pAct = new CPropertyAction(this, &LaserDiodeDriver::OnPort);
+   ret = CreateStringProperty(MM::g_Keyword_Port, "Undefined", false, pAct, true);
 }
 
 LaserDiodeDriver::~LaserDiodeDriver()
 {
    if (initialized_)
+   {
       Shutdown();
+}
+   delete interface_;
 }
 
 void LaserDiodeDriver::GetName(char* name) const
@@ -101,23 +117,13 @@ void LaserDiodeDriver::GetName(char* name) const
 
 int LaserDiodeDriver::Initialize()
 {
-   long value;
-   GetProperty("Number of Lasers", value);
-   numberOfLasers_ = (int)value; // :(
-
-   //char *dir;
-   //GetProperty("Device Directory", dir);
-   
    int ret = DEVICE_OK;
-
-   char boardType[MM::MaxStrLength];
-   GetProperty("Board Type", boardType);
 
    // TODO: This is rather ugly
 #ifdef BUILD_K8061
-   if (strcmp(boardType, g_BoardK8061) == 0) {
+   if (strcmp(boardType_.c_str(), g_BoardK8061) == 0) {
       char dir[MM::MaxStrLength];
-      GetProperty("Device Path/Serial Port", dir);
+      GetProperty(MM::g_Keyword_Port, dir);
    
       std::string deviceDir = std::string(dir);
 
@@ -125,14 +131,14 @@ int LaserDiodeDriver::Initialize()
    } else 
 #endif
 #ifdef BUILD_DUMMY
-   if (strcmp(boardType, g_BoardDummy) == 0) {
+   if (strcmp(boardType_.c_str(), g_BoardDummy) == 0) {
       interface_ = new DummyBoard();
    } else 
 #endif
 #ifdef BUILD_ARDUINO
-   if (strcmp(boardType, g_BoardArduino) == 0) {
+   if (strcmp(boardType_.c_str(), g_BoardArduino) == 0) {
       char dir[MM::MaxStrLength];
-      GetProperty("Device Path/Serial Port", dir);
+      GetProperty(MM::g_Keyword_Port, dir);
    
       std::string deviceDir = std::string(dir);
       
@@ -193,8 +199,43 @@ int LaserDiodeDriver::Initialize()
 
 int LaserDiodeDriver::Shutdown()
 {
+   if (initialized_ == false)
+	{
+		return DEVICE_OK;
+	}
+
    initialized_ = false;
-   delete interface_;
+   return DEVICE_OK;
+}
+
+int LaserDiodeDriver::OnNumberOfLasers(MM::PropertyBase* pProp, MM::ActionType eAct) {
+   if (eAct == MM::BeforeGet)
+   {
+      pProp->Set((long) numberOfLasers_);
+   }
+   else if (eAct == MM::AfterSet)
+   {
+      long val;
+      pProp->Get(val);
+      numberOfLasers_ = (int) val;
+   }
+
+   return DEVICE_OK;
+}
+
+int LaserDiodeDriver::OnBoardType(MM::PropertyBase* pProp, MM::ActionType eAct) {
+	if (eAct == MM::AfterSet)
+	{
+		pProp->Get(boardType_);
+	}
+   else if (eAct == MM::BeforeGet)
+   {
+      pProp->Set(boardType_.c_str());
+   }
+	return DEVICE_OK;
+}
+
+int LaserDiodeDriver::OnPort(MM::PropertyBase* pProp, MM::ActionType eAct) {
    return DEVICE_OK;
 }
 
