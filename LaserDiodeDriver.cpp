@@ -41,7 +41,7 @@ const char* g_BoardDummy = "Dummy";
 const char* g_BoardArduino = "Arduino";
 #endif
 
-const char* const g_Msg_DEVICE_INVALID_BOARD_TYPE = "Please choose a valid board type!";
+const char* const g_Msg_DEVICE_INVALID_BOARD_TYPE = "Please choose a valid device Type!";
 
 const char* g_LaserDiodeDriverName = "LaserDiodeDriver";
 
@@ -85,20 +85,20 @@ LaserDiodeDriver::LaserDiodeDriver()  :
 
    int ret;
    CPropertyAction* pAct = new CPropertyAction(this, &LaserDiodeDriver::OnBoardType);
-   ret = CreateStringProperty("Board Type", "", false, pAct, true);
+   ret = CreateStringProperty("Device Type", "", false, pAct, true);
 #ifdef BUILD_DUMMY
-   AddAllowedValue("Board Type", g_BoardDummy);
+   AddAllowedValue("Device Type", g_BoardDummy);
 #endif
 #ifdef BUILD_K8061
-   AddAllowedValue("Board Type", g_BoardK8061);
+   AddAllowedValue("Device Type", g_BoardK8061);
 #endif
 #ifdef BUILD_ARDUINO
-   AddAllowedValue("Board Type", g_BoardArduino);
+   AddAllowedValue("Device Type", g_BoardArduino);
 #endif
    pAct = new CPropertyAction(this, &LaserDiodeDriver::OnNumberOfLasers);
    ret = CreateIntegerProperty("Number of Lasers", 1, false, pAct, true);
    pAct = new CPropertyAction(this, &LaserDiodeDriver::OnPort);
-   ret = CreateStringProperty(MM::g_Keyword_Port, "Undefined", false, pAct, true);
+   ret = CreateStringProperty("Device Port", "Undefined", false, pAct, true);
 }
 
 LaserDiodeDriver::~LaserDiodeDriver()
@@ -123,7 +123,7 @@ int LaserDiodeDriver::Initialize()
 #ifdef BUILD_K8061
    if (strcmp(boardType_.c_str(), g_BoardK8061) == 0) {
       char dir[MM::MaxStrLength];
-      GetProperty(MM::g_Keyword_Port, dir);
+      GetProperty("Device Port", dir);
    
       std::string deviceDir = std::string(dir);
 
@@ -138,7 +138,7 @@ int LaserDiodeDriver::Initialize()
 #ifdef BUILD_ARDUINO
    if (strcmp(boardType_.c_str(), g_BoardArduino) == 0) {
       char dir[MM::MaxStrLength];
-      GetProperty(MM::g_Keyword_Port, dir);
+      GetProperty("Device Port", dir);
    
       std::string deviceDir = std::string(dir);
       
