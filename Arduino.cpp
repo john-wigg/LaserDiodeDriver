@@ -31,33 +31,40 @@
 
 Arduino::Arduino(std::string dev_path) {
     auto timeout = serial::Timeout::simpleTimeout(1000);
-    dev_.setTimeout(timeout);
-    dev_.setBaudrate(BAUD);
-    dev_.setPort(dev_path);
+    try {
+        dev_.setTimeout(timeout);
+        dev_.setBaudrate(BAUD);
+        dev_.setPort(dev_path);
+    } catch (...) {}
 }
 
 Arduino::~Arduino() {
-    dev_.write(std::vector<uint8_t>({CODE_CLOSE, '\n'}));
-    dev_.close();
+    try {
+        dev_.write(std::vector<uint8_t>({CODE_CLOSE, '\n'}));
+        dev_.close();
+    } catch(...) {}
 }
 
 int Arduino::Open() {
-    dev_.open();
-
-    if (!dev_.isOpen()) return 1;
-
-    dev_.write(std::vector<uint8_t>({CODE_OPEN, '\n'}));
+    try {
+        dev_.open(); // This guarantess is_open==true after so we only need to catch exceptions.
+        dev_.write(std::vector<uint8_t>({CODE_OPEN, '\n'}));
+    } catch (...) {
+        return 1;
+    }
 
     return 0;
 }
 
 bool Arduino::DeviceIsOpen() const {
-    return dev_.isOpen();
+    try {
+        return dev_.isOpen();
+    } catch (...) {
+        return false;
+    }
 }
 
 int Arduino::WriteAnalogRelative(unsigned int channel, double relative_value) {
-    if (!dev_.isOpen()) return 1;
-
     std::string value_string = std::to_string(relative_value);
 
     std::vector<uint8_t> sendbuf;
@@ -70,14 +77,16 @@ int Arduino::WriteAnalogRelative(unsigned int channel, double relative_value) {
     sendbuf.push_back('\0'); // null terminator for atof on Arduino
     sendbuf.push_back('\n');
 
-    dev_.write(sendbuf);
+    try {
+        dev_.write(sendbuf);
+    } catch (...) {
+        return 1;
+    }
 
     return 0;
 };
 
 int Arduino::WriteDigital(unsigned int channel, bool value) {
-    if (!dev_.isOpen()) return 1;
-
     std::vector<uint8_t> sendbuf;
     sendbuf.push_back(CODE_WRITE_DIGITAL);
     sendbuf.push_back(channel);
@@ -87,7 +96,11 @@ int Arduino::WriteDigital(unsigned int channel, bool value) {
 
     sendbuf.push_back('\n');
 
-    dev_.write(sendbuf);
+    try {
+        dev_.write(sendbuf);
+    } catch (...) {
+        return 1;
+    }
 
     return 0;
 };
