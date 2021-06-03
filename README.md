@@ -39,55 +39,50 @@ The [comedi](https://www.comedi.org/) library is required to run the Velleman K8
 
 [CMake](https://cmake.org/) is used as the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed on your Linux or Windows machine.
 
-1. Clone the Micro-Manager core source:
+1. Clone this respository *with updated submodules* to a directory:
 ```
-git clone https://github.com/micro-manager/mmCoreAndDevices
-```
-
-2. Clone this respository to a directory:
-```
-git clone https://github.com/john-wigg/LaserDiodeDriver
+git clone --recurse-submodules --remote-submodules https://github.com/john-wigg/LaserDiodeDriver
 ```
 
-3. Open the LaserDiodeDriver source directory you just cloned:
+This will download the device adapter source as well as the *latest* `mmCoreAndDevices` source which is needed for compilation.
+
+2. Open the LaserDiodeDriver source directory you just cloned:
 ```
 cd LaserDiodeDriver
 ```
 
-4. Create a build directory and enter it:
+3. Create a build directory and enter it:
 ```
 mkdir build
 cd build
 ```
 
-5. Generate the build files and specify the source directory of the Micro-Manager core:
+4. Generate the build files and specify the source directory of the Micro-Manager core:
 ```
-cmake .. -DMMROOT=path/to/mmCoreAndDevices
+cmake ..
 ```
-(If the `MMROOT` option is not specified, it is assumed that the `LaserDiodeDriver` directory is located inside the `DeviceAdapters` or `TestDeviceAdapters` directory inside Micro-Manager core's source tree.)
+(If you did not clone the repository recursively and want to supply your own version of `mmCoreAndDevices`, you can specify the path to the directory using `cmake .. -DMMROOT=path/to/mmCoreAndDevices`.)
 
-**Note**: If the compilation completes but you get "undefined reference" errors when trying to open the adapter in Micro-Manager, the path to the Micro-Manager core was probably incorrect. Note that if not absolute, paths are relative to the repos root directory (the directory containing `CMakeListst.txt`).
-
-6. Run the build:
+5. Run the build:
 ```
 cmake --build .
 ```
 
-7. Rename the generated shared library:
+6. Rename the generated shared library:
 ```
 mv libmmgr_dal_LaserDiodeDriver.so libmmgr_dal_LaserDiodeDriver.so.0
 ```
 
 **Note**: Skip this step for windows builds.
 
-8. Copy the shared library to the installation directory of Micro-Manager/ImageJ (may require root permissions):
+7. Copy the shared library to the installation directory of Micro-Manager/ImageJ (may require root permissions):
 ```
 cp libmmgr_dal_LaserDiodeDriver.so.0 /path/to/ImageJ
 ```
 
 **Note**: On Windows, the expected file extension is `.dll` instead of `.so.0`.
 
-9. Run Micro-Manager and create a new hardware configuration with the `LaserDiodeDriver` device adapter.
+8. Run Micro-Manager and create a new hardware configuration with the `LaserDiodeDriver` device adapter.
 
 ## Arduino setup
 
