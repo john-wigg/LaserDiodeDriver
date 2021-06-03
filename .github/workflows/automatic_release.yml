@@ -33,7 +33,7 @@ jobs:
     - name: checkout local
       uses: actions/checkout@v2
       with:
-        submodules: 'resursive'
+        submodules: 'recursive'
     - name: install comedilib
       run: sudo apt-get install libcomedi-dev
     - name: configure
