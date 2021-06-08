@@ -46,6 +46,7 @@ class K8061 : public InterfaceBoard {
         comedi_t *device_;
         int analog_n_channels_; /* Number of analog channels. */
         int digital_n_channels_; /* Number of digital channels. */
+        unsigned int bits_; /* Stores the digital output state as a bitfield. */
 };
 
 #endif // K8061_H_

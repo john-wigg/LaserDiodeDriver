@@ -27,6 +27,7 @@
 
 K8061::K8061(std::string dev) {
     dev_ = dev;
+    bits_ = 0;
 }
 
 K8061::~K8061() {
@@ -69,7 +70,19 @@ int K8061::WriteDigital(unsigned int channel, bool value) {
     if (channel > digital_n_channels_ - 1) { // invalid channel index
         return 1;
     }
-    int res = comedi_dio_write(device_, SUBDEV_DO, channel, (int)value);
+
+    // Writing a bitfield prevents a bug where unwanted channels are turned on.
+    unsigned int mask = (1 << digital_n_channels_) - 1;
+    unsigned int bits;
+    if (value) {
+        bits = bits_ | 1 << channel;
+    } else {
+        bits = bits_ & ~(1 << channel);
+    }
+    int res = comedi_dio_bitfield2(device_, SUBDEV_DO, mask, &bits, 0);
+    bits_ = bits; // Write actual state back.
+
+    //int res = comedi_dio_write(device_, SUBDEV_DO, channel, (int)value);
     if (res != 1) { // error occured
         return 1;
     }
