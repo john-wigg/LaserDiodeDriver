@@ -36,7 +36,7 @@
 class K8061 : public InterfaceBoard {
     public:
         K8061(std::string dev);
-        ~K8061(){};
+        ~K8061();
         int Open();
         int WriteAnalogRelative(unsigned int channel, double relative_value);
         int WriteDigital(unsigned int channel, bool value);

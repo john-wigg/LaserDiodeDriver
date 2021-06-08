@@ -29,6 +29,13 @@ K8061::K8061(std::string dev) {
     dev_ = dev;
 }
 
+K8061::~K8061() {
+    // Reset all channels.
+    unsigned int bits = 0;
+    unsigned int mask = (1 << digital_n_channels_) - 1;
+    comedi_dio_bitfield2(device_, SUBDEV_DO, mask, &bits, 0);
+}
+
 int K8061::Open() {
     
 	device_ = comedi_open(dev_.c_str());
