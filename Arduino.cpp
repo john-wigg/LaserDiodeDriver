@@ -69,12 +69,12 @@ int Arduino::WriteAnalogRelative(unsigned int channel, double relative_value) {
 
     std::vector<uint8_t> sendbuf;
 
+    uint16_t value = (unsigned short)(relative_value * 65535);
+
     sendbuf.push_back(CODE_WRITE_ANALOG);
     sendbuf.push_back(channel);
-
-    std::replace(value_string.begin(), value_string.end(), ',', '.'); // In case Micro-Manager gave us commas again.
-    std::copy(value_string.begin(), value_string.end(), std::back_inserter(sendbuf));
-    sendbuf.push_back('\0'); // null terminator for atof on Arduino
+    sendbuf.push_back((uint8_t)value);
+    sendbuf.push_back((uint8_t)(value >> 8));
     sendbuf.push_back('\n');
 
     try {

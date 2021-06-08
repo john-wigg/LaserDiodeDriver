@@ -107,7 +107,10 @@ void parseBuffer(char *buffer, size_t length) {
             
             ch %= 4;
 
-            double rel_val = atof(buffer+2);
+            uint8_t lower_bytes = buffer[2];
+            uint8_t upper_bytes = buffer[3];
+            uint16_t value = (upper_bytes << 8) | lower_bytes;
+            float rel_val = (float)value / 65535.0;
             dev->setChannelValue((MCP4728_channel_t)ch, (uint16_t)(rel_val * MAX_VALUE));
         }
             break;
