@@ -83,7 +83,7 @@ int K8061::WriteDigital(unsigned int channel, bool value) {
     bits_ = bits; // Write actual state back.
 
     //int res = comedi_dio_write(device_, SUBDEV_DO, channel, (int)value);
-    if (res != 1) { // error occured
+    if (res == -1) { // error occured
         return 1;
     }
     return 0;
