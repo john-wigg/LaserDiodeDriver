@@ -90,6 +90,11 @@ void parseBuffer(char *buffer, size_t length) {
         {
             //mcp1.saveToEEPROM();
             //mcp2.saveToEEPROM();
+
+            // Turn lasers off.
+            for (int ch = 0; ch < 8; ++ch) {
+                digitalWrite(DIGITAL_PIN_OFFSET+ch, HIGH);
+            }
         }
             break;
         case CODE_WRITE_ANALOG: // Write to MCPs analog channel
