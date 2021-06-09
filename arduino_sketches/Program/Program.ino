@@ -58,6 +58,9 @@ void setup() {
         pinMode(DIGITAL_PIN_OFFSET+ch, OUTPUT);
         digitalWrite(DIGITAL_PIN_OFFSET+ch, HIGH);
     }
+    
+    mcp1.begin(0x60);
+    mcp2.begin(0x61);
 }
 
 void loop () {
@@ -82,8 +85,6 @@ void parseBuffer(char *buffer, size_t length) {
     switch (code)  {
         case CODE_OPEN: // Open the device
         {
-            mcp1.begin(0x60);
-            mcp2.begin(0x61);
         }
             break;
         case CODE_CLOSE: // Save current settings to EEPROM and set pins to input to prevent damage.
