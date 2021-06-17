@@ -35,6 +35,9 @@ K8061::~K8061() {
     unsigned int bits = 0;
     unsigned int mask = (1 << digital_n_channels_) - 1;
     comedi_dio_bitfield2(device_, SUBDEV_DO, mask, &bits, 0);
+    for (int i = 0; i < 8; ++i) {
+        WriteAnalogRelative(i, 0.0);
+    }
 }
 
 int K8061::Open() {
