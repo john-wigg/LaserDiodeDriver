@@ -87,14 +87,16 @@ void parseBuffer(char *buffer, size_t length) {
         {
         }
             break;
-        case CODE_CLOSE: // Save current settings to EEPROM and set pins to input to prevent damage.
+        case CODE_CLOSE:
         {
-            //mcp1.saveToEEPROM();
-            //mcp2.saveToEEPROM();
-
             // Turn lasers off.
             for (int ch = 0; ch < 8; ++ch) {
                 digitalWrite(DIGITAL_PIN_OFFSET+ch, HIGH);
+            }
+
+            for (int ch = 0; ch < 4; ++ch) {
+                mcp1.setChannelValue((MCP4728_channel_t)ch, (uint16_t)0);
+                mcp2.setChannelValue((MCP4728_channel_t)ch, (uint16_t)0);
             }
         }
             break;
