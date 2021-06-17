@@ -245,14 +245,6 @@ int LaserDiodeDriver::OnLaserMinPower(MM::PropertyBase* pProp, MM::ActionType eA
       if (value > max_value) {
          value = max_value;
       }
-
-      pProp->Set(value);
-
-      char p_name_power[64];
-      sprintf(p_name_power, "Laser Power %d (%%)", idx);
-      double power;
-      GetProperty(p_name_power, power);
-      SetProperty(p_name_power, std::to_string(power).c_str());
    }
 
    return DEVICE_OK;
@@ -275,12 +267,6 @@ int LaserDiodeDriver::OnLaserMaxPower(MM::PropertyBase* pProp, MM::ActionType eA
       }
 
       pProp->Set(value);
-
-      char p_name_power[64];
-      sprintf(p_name_power, "Laser Power %d (%%)", idx);
-      double power;
-      GetProperty(p_name_power, power);
-      SetProperty(p_name_power, std::to_string(power).c_str());
    }
 
    return DEVICE_OK;
@@ -320,25 +306,10 @@ int LaserDiodeDriver::OnLaserPower(MM::PropertyBase* pProp, MM::ActionType eAct)
    if (eAct == MM::AfterSet) {
       double value;
       std::string pName = pProp->GetName();
-      pProp->Get(value);
 
       int ret;
       int idx = -1;
-
       sscanf(pName.c_str(), "Laser Power %d (%%)", &idx);
-
-      double min_value = GetLaserMinPower(idx);
-      double max_value = GetLaserMaxPower(idx);
-
-      if (value < min_value) {
-         value = min_value;
-      }
-
-      if (value > max_value) {
-         value = max_value;
-      }
-
-      pProp->Set(value);
 
       ret = SetLaserPower(idx-1, value);
 
@@ -368,7 +339,7 @@ double LaserDiodeDriver::GetLaserMinPower(int idx) {
    return value;
 }
 
-int LaserDiodeDriver::SetLaserOnOff(int idx, bool enabled) const {
+int LaserDiodeDriver::SetLaserOnOff(int idx, bool enabled) {
    if (!interface_->DeviceIsOpen()) {
       LogMessage("No open device!");
       return DEVICE_ERR;
@@ -382,11 +353,17 @@ int LaserDiodeDriver::SetLaserOnOff(int idx, bool enabled) const {
    return DEVICE_OK;
 }
 
-int LaserDiodeDriver::SetLaserPower(int idx, double power) const {
-   double relative_value = power / 100.0;
+int LaserDiodeDriver::SetLaserPower(int idx, double power) {
+   double min_value = GetLaserMinPower(idx);
+   double max_value = GetLaserMaxPower(idx);
+
+   double relative_value = min_value + power / (max_value - min_value);
    if (relative_value > 1.0) {
       relative_value = 1.0;
+   } else if (relative_value < 0.0) {
+      relative_value = 0.0;
    }
+
    int ret = interface_->WriteAnalogRelative(idx, relative_value);
    if (ret == 1) { // error
       // Debug

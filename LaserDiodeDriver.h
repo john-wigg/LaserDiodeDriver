@@ -48,14 +48,15 @@ public:
    void GetName(char* name) const;      
    
    // LaserDiodeDriver API
-   int SetLaserPower(int idx, double power) const;
-   int SetLaserOnOff(int idx, bool enabled) const;
+   int SetLaserPower(int idx, double power);
+   int SetLaserOnOff(int idx, bool enabled);
 
    int OnNumberOfLasers(MM::PropertyBase* pProp, MM::ActionType eAct);
    int OnBoardType(MM::PropertyBase* pProp, MM::ActionType eAct);
    int OnPort(MM::PropertyBase* pProp, MM::ActionType eAct);
    int OnLaserOnOff(MM::PropertyBase* pProp, MM::ActionType eAct);
    int OnLaserPower(MM::PropertyBase* pProp, MM::ActionType eAct);
+   int OnLaserLabel(MM::PropertyBase* pProp, MM::ActionType eAct);
    int OnLaserMinPower(MM::PropertyBase* pProp, MM::ActionType eAct);
    int OnLaserMaxPower(MM::PropertyBase* pProp, MM::ActionType eAct);
 
@@ -67,7 +68,6 @@ public:
 private:
    bool initialized_ = false;
    InterfaceBoard *interface_ = nullptr;
-   int numberOfLasers_;
    std::string boardType_;
 };
 
