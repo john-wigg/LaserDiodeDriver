@@ -104,7 +104,7 @@ LaserDiodeDriver::LaserDiodeDriver()
       char p_name[64];
 
       // Laser label
-      sprintf(p_name, "Laser Label %d (%%)", i+1);
+      sprintf(p_name, "Laser Label %d", i+1);
       ret = CreateStringProperty(p_name, "", false, nullptr, true);
 
       // Laser limits
@@ -309,7 +309,7 @@ int LaserDiodeDriver::OnLaserPower(MM::PropertyBase* pProp, MM::ActionType eAct)
 
       int ret;
       int idx = -1;
-      sscanf(pName.c_str(), "Laser Power %d (%%)", &idx);
+      sscanf(pName.c_str(), "Laser Power %d", &idx);
 
       ret = SetLaserPower(idx-1, value);
 
