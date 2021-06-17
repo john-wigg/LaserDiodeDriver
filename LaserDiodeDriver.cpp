@@ -76,8 +76,7 @@ MODULE_API void DeleteDevice(MM::Device* pDevice)
    delete pDevice;
 }
 
-LaserDiodeDriver::LaserDiodeDriver()  :
-   numberOfLasers_(1)
+LaserDiodeDriver::LaserDiodeDriver()
 {
    // call the base class method to set-up default error codes/messages
    InitializeDefaultErrorMessages();
@@ -95,8 +94,6 @@ LaserDiodeDriver::LaserDiodeDriver()  :
 #ifdef BUILD_ARDUINO
    AddAllowedValue("Device Type", g_BoardArduino);
 #endif
-   pAct = new CPropertyAction(this, &LaserDiodeDriver::OnNumberOfLasers);
-   ret = CreateIntegerProperty("Number of Lasers", 1, false, pAct, true);
    pAct = new CPropertyAction(this, &LaserDiodeDriver::OnPort);
    ret = CreateStringProperty("Device Port", "Undefined", false, pAct, true);
 }
@@ -161,7 +158,7 @@ int LaserDiodeDriver::Initialize()
    digitalValues.push_back(OFF);
    digitalValues.push_back(ON);
 
-   for (int i = 0; i < numberOfLasers_; ++i) {
+   for (int i = 0; i < NUMBER_OF_LASERS; ++i) {
       CPropertyAction* pActLaserPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserPower);
       CPropertyAction* pActLaserOnOff = new CPropertyAction (this, &LaserDiodeDriver::OnLaserOnOff);
       CPropertyAction* pActLaserMinPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMinPower);
@@ -205,21 +202,6 @@ int LaserDiodeDriver::Shutdown()
 	}
 
    initialized_ = false;
-   return DEVICE_OK;
-}
-
-int LaserDiodeDriver::OnNumberOfLasers(MM::PropertyBase* pProp, MM::ActionType eAct) {
-   if (eAct == MM::BeforeGet)
-   {
-      pProp->Set((long) numberOfLasers_);
-   }
-   else if (eAct == MM::AfterSet)
-   {
-      long val;
-      pProp->Get(val);
-      numberOfLasers_ = (int) val;
-   }
-
    return DEVICE_OK;
 }
 

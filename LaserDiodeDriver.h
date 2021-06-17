@@ -33,6 +33,7 @@
 #include <string>
 
 #define ERR_UNKNOWN_MODE         102
+#define NUMBER_OF_LASERS         8
 
 class LaserDiodeDriver : public CGenericBase<LaserDiodeDriver>  
 {
