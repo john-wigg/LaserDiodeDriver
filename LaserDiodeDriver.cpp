@@ -358,7 +358,7 @@ int LaserDiodeDriver::SetLaserPower(int idx, double power) {
    double min_value = GetLaserMinPower(idx);
    double max_value = GetLaserMaxPower(idx);
 
-   double relative_value = min_value + power * (max_value - min_value) / 100.0;
+   double relative_value = (min_value + power * (max_value - min_value) / 100.0) / 100.0;
    if (relative_value > 1.0) {
       relative_value = 1.0;
    } else if (relative_value < 0.0) {
