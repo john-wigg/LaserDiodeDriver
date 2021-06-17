@@ -96,6 +96,26 @@ LaserDiodeDriver::LaserDiodeDriver()
 #endif
    pAct = new CPropertyAction(this, &LaserDiodeDriver::OnPort);
    ret = CreateStringProperty("Device Port", "Undefined", false, pAct, true);
+
+   for (int i = 0; i < NUMBER_OF_LASERS; ++i) {
+      CPropertyAction* pActLaserMinPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMinPower);
+      CPropertyAction* pActLaserMaxPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMaxPower);
+
+      char p_name[64];
+
+      // Laser label
+      sprintf(p_name, "Laser Label %d (%%)", i+1);
+      ret = CreateStringProperty(p_name, "", false, nullptr, true);
+
+      // Laser limits
+      sprintf(p_name, "Min. Laser Power %d (%%)", i+1);
+      ret = CreateFloatProperty(p_name, 0.0, false, pActLaserMinPower, true);
+      ret = SetPropertyLimits(p_name, 0.0, 100.0);
+
+      sprintf(p_name, "Max. Laser Power %d (%%)", i+1);
+      ret = CreateFloatProperty(p_name, 100.0, false, pActLaserMaxPower, true);
+      ret = SetPropertyLimits(p_name, 0.0, 100.0);
+   }
 }
 
 LaserDiodeDriver::~LaserDiodeDriver()
@@ -161,8 +181,6 @@ int LaserDiodeDriver::Initialize()
    for (int i = 0; i < NUMBER_OF_LASERS; ++i) {
       CPropertyAction* pActLaserPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserPower);
       CPropertyAction* pActLaserOnOff = new CPropertyAction (this, &LaserDiodeDriver::OnLaserOnOff);
-      CPropertyAction* pActLaserMinPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMinPower);
-      CPropertyAction* pActLaserMaxPower = new CPropertyAction (this, &LaserDiodeDriver::OnLaserMaxPower);
 
       char p_name[64];
 
@@ -175,15 +193,6 @@ int LaserDiodeDriver::Initialize()
       sprintf(p_name, "Enable Laser %d", i+1);
       ret = CreateStringProperty(p_name, OFF, false, pActLaserOnOff);
       ret = SetAllowedValues(p_name, digitalValues);
-
-      // Laser limits
-      sprintf(p_name, "Min. Laser Power %d (%%)", i+1);
-      ret = CreateFloatProperty(p_name, 0.0, false, pActLaserMinPower);
-      ret = SetPropertyLimits(p_name, 0.0, 100.0);
-
-      sprintf(p_name, "Max. Laser Power %d (%%)", i+1);
-      ret = CreateFloatProperty(p_name, 100.0, false, pActLaserMaxPower);
-      ret = SetPropertyLimits(p_name, 0.0, 100.0);
    }
 
    if (ret != DEVICE_OK) {
