@@ -240,7 +240,7 @@ int LaserDiodeDriver::OnLaserMinPower(MM::PropertyBase* pProp, MM::ActionType eA
 
       sscanf(pName.c_str(), "Min. Laser Power %d (%%)", &idx);
 
-      double max_value = GetLaserMaxPower(idx);
+      double max_value = GetLaserMaxPower(idx-1);
 
       if (value > max_value) {
          value = max_value;
@@ -260,7 +260,7 @@ int LaserDiodeDriver::OnLaserMaxPower(MM::PropertyBase* pProp, MM::ActionType eA
 
       sscanf(pName.c_str(), "Max. Laser Power %d (%%)", &idx);
 
-      double min_value = GetLaserMinPower(idx);
+      double min_value = GetLaserMinPower(idx-1);
 
       if (value < min_value) {
          value = min_value;
@@ -327,7 +327,7 @@ int LaserDiodeDriver::OnLaserPower(MM::PropertyBase* pProp, MM::ActionType eAct)
 double LaserDiodeDriver::GetLaserMaxPower(int idx) {
    double value;
    char p_name[64];
-   sprintf(p_name, "Max. Laser Power %d (%%)", idx);
+   sprintf(p_name, "Max. Laser Power %d (%%)", idx+1);
    GetProperty(p_name, value);
    return value;
 }
@@ -335,7 +335,7 @@ double LaserDiodeDriver::GetLaserMaxPower(int idx) {
 double LaserDiodeDriver::GetLaserMinPower(int idx) {
    double value;
    char p_name[64];
-   sprintf(p_name, "Min. Laser Power %d (%%)", idx);
+   sprintf(p_name, "Min. Laser Power %d (%%)", idx+1);
    GetProperty(p_name, value);
    return value;
 }
