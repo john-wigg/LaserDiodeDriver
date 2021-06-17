@@ -306,6 +306,7 @@ int LaserDiodeDriver::OnLaserPower(MM::PropertyBase* pProp, MM::ActionType eAct)
    if (eAct == MM::AfterSet) {
       double value;
       std::string pName = pProp->GetName();
+      pProp->Get(value);
 
       int ret;
       int idx = -1;
@@ -357,7 +358,7 @@ int LaserDiodeDriver::SetLaserPower(int idx, double power) {
    double min_value = GetLaserMinPower(idx);
    double max_value = GetLaserMaxPower(idx);
 
-   double relative_value = min_value + power / (max_value - min_value);
+   double relative_value = min_value + power * (max_value - min_value) / 100.0;
    if (relative_value > 1.0) {
       relative_value = 1.0;
    } else if (relative_value < 0.0) {
