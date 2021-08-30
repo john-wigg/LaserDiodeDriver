@@ -122,7 +122,8 @@ void parseBuffer(char *buffer, size_t length) {
             uint8_t upper_bytes = buffer[3];
             uint16_t value = (upper_bytes << 8) | lower_bytes;
             float rel_val = (float)value / 65535;
-            dev->setChannelValue((MCP4728_channel_t)ch, (uint16_t)(rel_val * MAX_VALUE));
+            dev->setChannelValue((MCP4728_channel_t)ch, (uint16_t)(rel_val * MAX_VALUE), MCP4728_VREF_INTERNAL,
+MCP4728_GAIN_1X);
         }
             break;
         case CODE_WRITE_DIGITAL: // Write to Arduino's digital channel
