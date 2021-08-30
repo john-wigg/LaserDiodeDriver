@@ -187,7 +187,7 @@ int LaserDiodeDriver::Initialize()
       // Laser power
       sprintf(p_name, "Laser Power %d (%%)", i+1);
       ret = CreateFloatProperty(p_name, 0.0, false, pActLaserPower);
-      ret = SetPropertyLimits(p_name, 0.0, 100.0);
+      ret = SetPropertyLimits(p_name, 0, 100);
 
       // Laser on/off
       sprintf(p_name, "Enable Laser %d", i+1);

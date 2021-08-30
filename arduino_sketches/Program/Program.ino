@@ -1,6 +1,6 @@
 /* Program.ino
  *
- * Copyright (C) 2020 John Wigg
+ * Copyright (C) 2020,2021 John Wigg
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,7 +24,7 @@
 #include <Arduino.h>
 #include <Adafruit_MCP4728.h>
 
-#define BAUD 9600
+#define BAUD 115200
 
 // Codes for communication via Serial
 #define CODE_OPEN 0x00
@@ -42,8 +42,8 @@
 // Buffer size for receiving data
 #define BUFFER_SIZE 64
 
-// D0 and D1 are used for Serial comms
-#define DIGITAL_PIN_OFFSET 2
+// D0 and D1 are used for Serial comms, D2 is used to adress the second MCP4728 board.
+#define DIGITAL_PIN_OFFSET 3
 
 Adafruit_MCP4728 mcp1; // MCP4728 at address 0x60
 Adafruit_MCP4728 mcp2; // MCP4728 at address 0x61
@@ -53,14 +53,19 @@ constexpr char end_marker = '\n';
 void setup() {
     Serial.begin(BAUD);
 
-    // Set pinMode to OUTPUT and set to HIGH.
+    // Set pinMode to OUTPUT and set to LOW.
     for (int ch = 0; ch < 8; ++ch) {
         pinMode(DIGITAL_PIN_OFFSET+ch, OUTPUT);
-        digitalWrite(DIGITAL_PIN_OFFSET+ch, HIGH);
+        digitalWrite(DIGITAL_PIN_OFFSET+ch, LOW);
     }
     
     mcp1.begin(0x60);
     mcp2.begin(0x61);
+
+    for (int ch = 0; ch < 4; ++ch) {
+      mcp1.setChannelValue((MCP4728_channel_t)ch, (uint16_t)0);
+      mcp2.setChannelValue((MCP4728_channel_t)ch, (uint16_t)0);
+    }    
 }
 
 void loop () {
@@ -91,13 +96,16 @@ void parseBuffer(char *buffer, size_t length) {
         {
             // Turn lasers off.
             for (int ch = 0; ch < 8; ++ch) {
-                digitalWrite(DIGITAL_PIN_OFFSET+ch, HIGH);
+                digitalWrite(DIGITAL_PIN_OFFSET+ch, LOW);
             }
 
             for (int ch = 0; ch < 4; ++ch) {
                 mcp1.setChannelValue((MCP4728_channel_t)ch, (uint16_t)0);
                 mcp2.setChannelValue((MCP4728_channel_t)ch, (uint16_t)0);
             }
+                
+            mcp1.saveToEEPROM();
+            mcp2.saveToEEPROM();
         }
             break;
         case CODE_WRITE_ANALOG: // Write to MCPs analog channel
@@ -113,17 +121,17 @@ void parseBuffer(char *buffer, size_t length) {
             uint8_t lower_bytes = buffer[2];
             uint8_t upper_bytes = buffer[3];
             uint16_t value = (upper_bytes << 8) | lower_bytes;
-            float rel_val = (float)value / 65535.0;
+            float rel_val = (float)value / 65535;
             dev->setChannelValue((MCP4728_channel_t)ch, (uint16_t)(rel_val * MAX_VALUE));
         }
             break;
-        case CODE_WRITE_DIGITAL: // Write do Arduino's digital channel
+        case CODE_WRITE_DIGITAL: // Write to Arduino's digital channel
         {
             char ch = buffer[1]; // channel
             if (ch >= 8) return; // We only use 8 channels.
             char val = buffer[2]; // value
-            if (val) digitalWrite(ch + DIGITAL_PIN_OFFSET, LOW);
-            else digitalWrite(ch + DIGITAL_PIN_OFFSET, HIGH);
+            if (val) digitalWrite(ch + DIGITAL_PIN_OFFSET, HIGH);
+            else digitalWrite(ch + DIGITAL_PIN_OFFSET, LOW);
         }
             break;
     }
