@@ -135,7 +135,7 @@ usermod -a -G uucp user
 
 ## EMU plugin
 
-After successfully installing this device adapter, it is highly recommended to install the [EMU plugin]( https://github.com/john-wigg/LaserDiodeDriverUI.) for an easy-to-use graphical interface.
+After successfully installing this device adapter, it is highly recommended to install the [EMU plugin]( https://github.com/john-wigg/LaserDiodeDriverUI) for an easy-to-use graphical interface.
 
 Please contact us for feedback or open an issue on github if you experience some difficulties.
 
