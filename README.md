@@ -124,6 +124,8 @@ cp libmmgr_dal_LaserDiodeDriver.so.0 /path/to/ImageJ
 
 6. The Arduino is now successfully programmed to communicate with this Micro-Manager device adapter.
 
+7. In Micro-Manager, open Devices -> Hardware Configuration Wizard and at LaserDiodeDriver, choose "Arduino" as Device Type.
+
 ## Additional setup (Linux only)
 
 If you want to use the LaserEngine without the need for `sudo`, add your user to the uucp group:
@@ -145,7 +147,7 @@ Apart from the above preferred interface method, two more options are available.
 
 The following instruction will walk you through the process of building the setup on a breadboard and configuring the Arduino. The examples assume that you are using an [Arduino Nano 33 BLE](https://store.arduino.cc/products/arduino-nano-33-ble), however, other boards with 3.3V digital outputs should work as well. 5V output boards are not supported.
 
-1. Connect the `SDA` and `SCL` pins of the two MACP4728s to the corresponding pins of the Arduino (`A4` and `A5`, respectively on the Arduino Nano). Connect the `VCC` pins to the `3V` pin of the Arduino and tie all `GND` pins together. 
+1. Connect the `SDA` and `SCL` pins of the two MCP4728s to the corresponding pins of the Arduino (`A4` and `A5`, respectively on the Arduino Nano). Connect the `VCC` pins to the `3V` pin of the Arduino and tie all `GND` pins together. 
 
  2. The complete Fritzing diagram is shown below:
 
