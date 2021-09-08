@@ -31,7 +31,7 @@
 
 #include "serial/serial.h"
 
-#define BAUD 9600
+#define BAUD 115200
 
 // Codes for communication via Serial
 #define CODE_OPEN 0x00
