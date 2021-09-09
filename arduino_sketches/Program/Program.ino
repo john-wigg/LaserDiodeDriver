@@ -31,6 +31,7 @@
 #define CODE_CLOSE 0x01
 #define CODE_WRITE_ANALOG 0x02
 #define CODE_WRITE_DIGITAL 0x03
+#define CODE_END_SEQUENCE 0x0A
 
 // Adresses of MCPs
 #define ADDR_MCP_1 0x60
@@ -48,7 +49,7 @@
 Adafruit_MCP4728 mcp1; // MCP4728 at address 0x60
 Adafruit_MCP4728 mcp2; // MCP4728 at address 0x61
 
-constexpr char end_marker = '\n';
+constexpr char end_marker = CODE_END_SEQUENCE;
 
 void setup() {
     Serial.begin(BAUD);

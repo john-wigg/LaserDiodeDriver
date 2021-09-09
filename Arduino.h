@@ -1,6 +1,6 @@
 /* Arduino.h
  *
- * Copyright (C) 2020 John Wigg
+ * Copyright (C) 2020, 2021 John Wigg
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -38,6 +38,7 @@
 #define CODE_CLOSE 0x01
 #define CODE_WRITE_ANALOG 0x02
 #define CODE_WRITE_DIGITAL 0x03
+#define CODE_END_SEQUENCE 0x0A
 
 class Arduino : public InterfaceBoard {
     public:

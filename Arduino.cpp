@@ -40,7 +40,7 @@ Arduino::Arduino(std::string dev_path) {
 
 Arduino::~Arduino() {
     try {
-        dev_.write(std::vector<uint8_t>({CODE_CLOSE, '\n'}));
+        dev_.write(std::vector<uint8_t>({CODE_CLOSE, CODE_END_SEQUENCE}));
         dev_.close();
     } catch(...) {}
 }
@@ -48,7 +48,7 @@ Arduino::~Arduino() {
 int Arduino::Open() {
     try {
         dev_.open(); // This guarantess is_open==true after so we only need to catch exceptions.
-        dev_.write(std::vector<uint8_t>({CODE_OPEN, '\n'}));
+        dev_.write(std::vector<uint8_t>({CODE_OPEN, CODE_END_SEQUENCE}));
     } catch (...) {
         return 1;
     }
@@ -75,7 +75,7 @@ int Arduino::WriteAnalogRelative(unsigned int channel, double relative_value) {
     sendbuf.push_back(channel);
     sendbuf.push_back((uint8_t)value);
     sendbuf.push_back((uint8_t)(value >> 8));
-    sendbuf.push_back('\n');
+    sendbuf.push_back(CODE_END_SEQUENCE);
 
     try {
         dev_.write(sendbuf);
@@ -94,7 +94,7 @@ int Arduino::WriteDigital(unsigned int channel, bool value) {
     if (value) sendbuf.push_back(0x01);
     else sendbuf.push_back(0x00);
 
-    sendbuf.push_back('\n');
+    sendbuf.push_back(CODE_END_SEQUENCE);
 
     try {
         dev_.write(sendbuf);
