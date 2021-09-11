@@ -76,9 +76,20 @@ void loop () {
 
     while (Serial.available() > 0) {
         rc = Serial.read();
+        Serial.print(0x00);
+        Serial.print("b");
+        Serial.print(0x01);
+        Serial.print("c");
+        Serial.print(0x02);
+        Serial.print("c");
+        Serial.print(0x03);
+        Serial.print("eol");
+        Serial.print(char(0x0A));
+        
         if (rc == end_marker) {
             parseBuffer(buffer, pos+1);
             pos = 0;
+            Serial.print("eol detected");
         } else {
             buffer[pos++] = rc;
         }
@@ -88,9 +99,13 @@ void loop () {
 void parseBuffer(char *buffer, size_t length) {
     if (length == 0) return; // Buffer is empty, can't parse
     char code = buffer[0];
+    Serial.print("parse buffer");
+    Serial.print((char)code);
     switch (code)  {
         case CODE_OPEN: // Open the device
         {
+          Serial.print("device open");
+          Serial.print(char(0x0A));
         }
             break;
         case CODE_CLOSE:
@@ -129,6 +144,7 @@ MCP4728_GAIN_1X);
             break;
         case CODE_WRITE_DIGITAL: // Write to Arduino's digital channel
         {
+            Serial.print("write digital");
             char ch = buffer[1]; // channel
             if (ch >= 8) return; // We only use 8 channels.
             char val = buffer[2]; // value
