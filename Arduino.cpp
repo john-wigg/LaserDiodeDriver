@@ -35,7 +35,7 @@ Arduino::Arduino(std::string dev_path) {
         dev_.setTimeout(timeout);
         dev_.setBaudrate(BAUD);
         dev_.setPort(dev_path);
-        dev_.setflowcontrol(FLOWCTRL)
+        dev_.setFlowcontrol(FLOWCTRL)
     } catch (...) {}
 }
 
