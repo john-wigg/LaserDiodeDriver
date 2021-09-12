@@ -74,14 +74,17 @@ void loop () {
     static char buffer[BUFFER_SIZE];
     static size_t pos;
 
-    while (Serial.available() > 0) {
+    while (Serial.available() ) {
         rc = Serial.read();
         
         if (rc == end_marker) {
             parseBuffer(buffer, pos+1);
             pos = 0;
-        } else {
+        } else if (pos < 62) {
             buffer[pos++] = rc;
+        } else {
+            pos = 0;
+            break;
         }
     }
 }

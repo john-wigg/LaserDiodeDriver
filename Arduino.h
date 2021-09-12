@@ -32,7 +32,6 @@
 #include "serial/serial.h"
 
 #define BAUD 115200
-#define FLOWCTRL serial::flowcontrol_software
 
 // Codes for communication via Serial
 #define CODE_OPEN 0x00
