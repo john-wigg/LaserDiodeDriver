@@ -239,22 +239,37 @@ Serial::SerialImpl::reconfigurePort ()
   // setup flowcontrol
   if (flowcontrol_ == flowcontrol_none) {
     dcbSerialParams.fOutxCtsFlow = false;
-    dcbSerialParams.fRtsControl = RTS_CONTROL_DISABLE;
+    dcbSerialParams.fOutxDsrFlow = false;    // [GLE]
+    dcbSerialParams.fRtsControl = RTS_CONTROL_ENABLE; // RTS_CONTROL_DISABLE; // [GLE] enable
+    dcbSerialParams.fDtrControl = DTR_CONTROL_ENABLE; //DTR_CONTROL_DISABLE;  // [GLE] add, enable
     dcbSerialParams.fOutX = false;
     dcbSerialParams.fInX = false;
   }
   if (flowcontrol_ == flowcontrol_software) {
     dcbSerialParams.fOutxCtsFlow = false;
-    dcbSerialParams.fRtsControl = RTS_CONTROL_DISABLE;
+    dcbSerialParams.fOutxDsrFlow = false;    // [GLE]
+    dcbSerialParams.fRtsControl = RTS_CONTROL_ENABLE; // RTS_CONTROL_DISABLE; // [GLE] enable
+    dcbSerialParams.fDtrControl = DTR_CONTROL_ENABLE; //DTR_CONTROL_DISABLE;  // [GLE] add, enable
     dcbSerialParams.fOutX = true;
     dcbSerialParams.fInX = true;
   }
   if (flowcontrol_ == flowcontrol_hardware) {
     dcbSerialParams.fOutxCtsFlow = true;
+    dcbSerialParams.fOutxDsrFlow = false;    // [GLE]
     dcbSerialParams.fRtsControl = RTS_CONTROL_HANDSHAKE;
+    dcbSerialParams.fDtrControl = DTR_CONTROL_ENABLE; //DTR_CONTROL_DISABLE;  // [GLE] add, enable
     dcbSerialParams.fOutX = false;
     dcbSerialParams.fInX = false;
   }
+  if (flowcontrol_ == flowcontrol_hardware_DTR_DSR) {
+      dcbSerialParams.fOutxCtsFlow = false;
+      dcbSerialParams.fOutxDsrFlow = true;    // [GLE]
+      dcbSerialParams.fRtsControl = RTS_CONTROL_ENABLE; // RTS_CONTROL_DISABLE; // [GLE] enable
+      dcbSerialParams.fDtrControl = DTR_CONTROL_HANDSHAKE;  // [GLE]
+      dcbSerialParams.fOutX = false;
+      dcbSerialParams.fInX = false;
+  }
+
 
   // activate settings
   if (!SetCommState(fd_, &dcbSerialParams)){
