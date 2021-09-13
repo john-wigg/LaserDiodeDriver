@@ -261,16 +261,7 @@ Serial::SerialImpl::reconfigurePort ()
     dcbSerialParams.fOutX = false;
     dcbSerialParams.fInX = false;
   }
-  if (flowcontrol_ == flowcontrol_hardware_DTR_DSR) {
-      dcbSerialParams.fOutxCtsFlow = false;
-      dcbSerialParams.fOutxDsrFlow = true;    // [GLE]
-      dcbSerialParams.fRtsControl = RTS_CONTROL_ENABLE; // RTS_CONTROL_DISABLE; // [GLE] enable
-      dcbSerialParams.fDtrControl = DTR_CONTROL_HANDSHAKE;  // [GLE]
-      dcbSerialParams.fOutX = false;
-      dcbSerialParams.fInX = false;
-  }
-
-
+ 
   // activate settings
   if (!SetCommState(fd_, &dcbSerialParams)){
     CloseHandle(fd_);
