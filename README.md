@@ -26,12 +26,17 @@ An [EMU](https://micro-manager.org/wiki/EMU) plugin designed to be used with thi
 -
 
 ## Prerequisites
+#### Micro-Manager
 
-#### Install the Arduino SDK:
+Please install [Micro-Manager 2.0.0 or above](https://micro-manager.org/Download_Micro-Manager_Latest_Release). This device-adapter is not compatible with version 1.4.
+
+#### Install the Arduino IDE:
+
+The Arduino IDE is only necessary to upload the Arduino program on the first time.
 
 _Microsoft Windows_: 
 
-[Arduino SDK](https://www.arduino.cc/en/software)
+[Arduino IDE](https://www.arduino.cc/en/software)
 
 _Debian & Derivates_:
 ```
