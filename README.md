@@ -30,6 +30,10 @@ An [EMU](https://micro-manager.org/wiki/EMU) plugin designed to be used with thi
 
 Please install [Micro-Manager 2.0.0 or above](https://micro-manager.org/Download_Micro-Manager_Latest_Release). This device-adapter is not compatible with version 1.4.
 
+_Microsoft Windows_: 
+
+On Windows, please install the latest Visual C++ Redistributable from here [Visual Studio 2015, 2017, 2019, and 2022](https://aka.ms/vs/16/release/vc_redist.x64.exe).
+
 #### Install the Arduino IDE:
 
 The Arduino IDE is only necessary to upload the Arduino program on the first time.
