@@ -26,16 +26,6 @@
 #include <iostream>
 #include <sstream>
 
-#ifdef BUILD_K8061
-#include "K8061.h"
-const char* g_BoardK8061 = "K8061";
-#endif
-
-#ifdef BUILD_DUMMY
-#include "DummyBoard.h"
-const char* g_BoardDummy = "Dummy";
-#endif
-
 #ifdef BUILD_ARDUINO
 #include "Arduino.h"
 const char* g_BoardArduino = "Arduino";
