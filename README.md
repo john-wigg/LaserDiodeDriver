@@ -30,13 +30,13 @@ An [EMU](https://micro-manager.org/wiki/EMU) plugin designed to be used with thi
 
 Please install [Micro-Manager 2.0.0 or above](https://micro-manager.org/Download_Micro-Manager_Latest_Release). This device-adapter is not compatible with version 1.4.
 
-_Microsoft Windows_: 
+_Microsoft Windows_:
 
 On Windows, please install the latest Visual C++ Redistributable from here [Visual Studio 2015, 2017, 2019, and 2022](https://aka.ms/vs/16/release/vc_redist.x64.exe).
 
 #### Install the Arduino IDE:
 
-The Arduino IDE is only necessary to upload the Arduino program on the first time.
+The Arduino IDE is only necessary to upload the Arduino program on the first time. After this step, the Arduino IDE can safely be removed.
 
 _Microsoft Windows_: 
 
@@ -58,11 +58,17 @@ pacman -Sy arduino
 
 You can find pre-built binaries on the github repository [here](https://github.com/john-wigg/LaserDiodeDriver/releases).
 
+_Microsoft Windows_:
+Download and unpack libmmgr_dal_LaserDiodeDriver.zip. Copy the contained file mmgr_dal_LaserDiodeDriver.dll into the MicroManager2.0 folder.
+
+_Linux Derivates_:
+Download and unpack libmmgr_dal_LaserDiodeDriver.tar.gz. Copy the contained file mmgr_dal_LaserDiodeDriver.so.0 into the ImageJ-folder that is linked to MicroManager.
+
+
 After installing the binaries, please proceed at "Arduino setup".
 
+**Alternatively** to using pre-built binaries, you can also build your device adapter from source.
 ### Build instructions (tested on Windows and Linux)
-
-**Alternatively**, you can build your device adapter from the sources.
 
 [CMake](https://cmake.org/) is used as the build system for this device adapter. Below is a breakdown of the build process. It is assumed that Micro-Manager is already installed on your Linux or Windows machine.
 
