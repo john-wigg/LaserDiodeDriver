@@ -15,11 +15,8 @@ target_include_directories(mmgr_dal_LaserDiodeDriver PUBLIC ${MMROOT}/MMDevice)
 
 # Check which interface boards are compatible with the current platform.
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-       set(BUILD_K8061 true)
-       set(BUILD_DUMMY true)
        set(BUILD_ARDUINO true)
 elseif (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-       set(BUILD_DUMMY true)
        set(BUILD_ARDUINO true)
        target_compile_definitions(mmgr_dal_LaserDiodeDriver PUBLIC MODULE_EXPORTS) # required on windows
 else()
@@ -27,18 +24,6 @@ else()
 endif()
 
 # Add sources for specific interface boards
-if (BUILD_K8061)
-       target_link_libraries(mmgr_dal_LaserDiodeDriver PRIVATE comedi)
-       target_compile_definitions(mmgr_dal_LaserDiodeDriver PUBLIC -DBUILD_K8061)
-       target_sources(mmgr_dal_LaserDiodeDriver PRIVATE K8061.cpp)
-endif()
-
-if (BUILD_DUMMY)
-       # TOOD: Probably link Arduino Libraries
-       target_compile_definitions(mmgr_dal_LaserDiodeDriver PUBLIC -DBUILD_DUMMY)
-       target_sources(mmgr_dal_LaserDiodeDriver PUBLIC DummyBoard.cpp)
-endif()
-
 if (BUILD_ARDUINO)
        target_compile_definitions(mmgr_dal_LaserDiodeDriver PUBLIC -DBUILD_ARDUINO)
        target_sources(mmgr_dal_LaserDiodeDriver PRIVATE Arduino.cpp)

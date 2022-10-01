@@ -26,12 +26,9 @@
 #include <iostream>
 #include <sstream>
 
-#ifdef BUILD_ARDUINO
+// Always include Arduino-board commit 1d16c1119ba8a6349a982ad88a5b6d78bc918a21
 #include "Arduino.h"
 const char* g_BoardArduino = "Arduino";
-#endif
-
-const char* const g_Msg_DEVICE_INVALID_BOARD_TYPE = "Please choose a valid device Type!";
 
 const char* g_LaserDiodeDriverName = "LaserDiodeDriver";
 
