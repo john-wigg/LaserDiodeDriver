@@ -128,9 +128,9 @@ void parseBuffer(char *buffer, size_t length) {
         case CODE_WRITE_ANALOG: // Write to MCPs analog channel
         {
             char ch = buffer[1];
-            if (ch >= 8) return; // We only have 8 channels
+            if (ch >= 6) return; // We only have 6 channels
             Adafruit_MCP4728 *dev;
-            if (ch > 3) dev = &mcp2;
+            if (ch > 2) dev = &mcp2;
             else dev = &mcp1;
             
             ch %= 4;
@@ -146,7 +146,7 @@ MCP4728_GAIN_1X);
         case CODE_WRITE_DIGITAL: // Write to Arduino's digital channel
         {
             char ch = buffer[1]; // channel
-            if (ch >= 8) return; // We only use 8 channels.
+            if (ch >= 6) return; // We only use 6 channels.
             char val = buffer[2]; // value
             if (val) digitalWrite(ch + DIGITAL_PIN_OFFSET, HIGH);
             else digitalWrite(ch + DIGITAL_PIN_OFFSET, LOW);
