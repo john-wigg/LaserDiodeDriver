@@ -30,6 +30,8 @@
 #include "Arduino.h"
 const char* g_BoardArduino = "Arduino";
 
+const char* const g_Msg_DEVICE_INVALID_BOARD_TYPE = "Please choose a valid device Type!";
+
 const char* g_LaserDiodeDriverName = "LaserDiodeDriver";
 
 const char* ON = "On";
