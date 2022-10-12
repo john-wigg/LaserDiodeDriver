@@ -59,11 +59,14 @@ pacman -Sy arduino
 You can find pre-built binaries on the github repository [here](https://github.com/john-wigg/LaserDiodeDriver/releases).
 
 _Microsoft Windows_:
-Download and unpack libmmgr_dal_LaserDiodeDriver.zip. Copy the contained file mmgr_dal_LaserDiodeDriver.dll into the MicroManager2.0 folder.
+1. Download and unpack libmmgr_dal_LaserDiodeDriver.zip. Copy the contained file mmgr_dal_LaserDiodeDriver.dll into the MicroManager2.0 folder.
+
+2. Create your own Micro-Manager config with the Hardware Configuration Wizard or copy one of the default config files that are provided at this repository into the Micro-Manager folder. Change the COM-port to the one of the LaserEngine.
 
 _Linux Derivates_:
-Download and unpack libmmgr_dal_LaserDiodeDriver.tar.gz. Copy the contained file mmgr_dal_LaserDiodeDriver.so.0 into the ImageJ-folder that is linked to MicroManager.
+1. Download and unpack libmmgr_dal_LaserDiodeDriver.tar.gz. Copy the contained file mmgr_dal_LaserDiodeDriver.so.0 into the ImageJ-folder that is linked to MicroManager.
 
+2. Create your own Micro-Manager config with the Hardware Configuration Wizard or copy one of the default config files that are provided at this repository on your PC. Change the ttyACM-link to the one of the LaserEngine (default is ttyACM0).
 
 After installing the binaries, please proceed at "Arduino setup".
 

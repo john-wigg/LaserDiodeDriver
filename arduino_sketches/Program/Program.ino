@@ -23,6 +23,7 @@
 
 #include <Arduino.h>
 #include <Adafruit_MCP4728.h>
+#include <SPI.h>
 
 #define BAUD 115200
 
@@ -77,7 +78,7 @@ void setup() {
       mcp2.setChannelValue((MCP4728_channel_t)ch, (uint16_t)0);
     }
 
-    // hard-code the pulse-generator for MHz pulsing lasers to 1MHz & 75% duty cycle
+    // hard-code the pulse-generator settings in for MHz pulsing lasers to 1MHz & 75% duty cycle
     set_pwm(4, 16);
 }
 
@@ -130,10 +131,10 @@ void parseBuffer(char *buffer, size_t length) {
             char ch = buffer[1];
             if (ch >= 6) return; // We only have 6 channels
             Adafruit_MCP4728 *dev;
-            if (ch > 2) dev = &mcp2;
+            if (ch > 2) dev = &mcp2; // Needs to be changed according to #channels per DAC
             else dev = &mcp1;
             
-            ch %= 4;
+            ch %= 3; // Needs to be changed according to #channels per DAC
 
             uint8_t lower_bytes = buffer[2];
             uint8_t upper_bytes = buffer[3];
@@ -159,7 +160,7 @@ MCP4728_GAIN_1X);
              //uint16_t value = (upper_bytes << 8) | lower_bytes;
              set_pwm(duty, top);
          }
-             break;        
+             break;
     }
 }
 
@@ -183,3 +184,7 @@ void set_pwm(uint16_t duty, uint16_t top) // CLK = 16MHz
   NRF_PWM0->SEQ[0].ENDDELAY = 0;
   NRF_PWM0->TASKS_SEQSTART[0] = 1;
 }
+
+// Explanation
+// top: Frequency based on a 16MHz repetition rate. Counter counts up with a 16MHz clock.
+// duty: Off duty time
